@@ -1,0 +1,86 @@
+export const users = [
+    {
+      userid: 1,
+      fname: "Amanuel",
+      lname: "Ferede",
+      profilepic: "/users/1.jpg",
+    },
+    {
+      userid: 2,
+      fname: "Meron",
+      lname: "Tegegn",
+      profilepic: "/users/2.jpg",
+    },
+    {
+      userid: 3,
+      fname: "Aster",
+      lname: "Molalign",
+      profilepic: "/users/3.jpg",
+    },
+    {
+      userid: 4,
+      fname: "Kefa",
+      lname: "Abebe",
+      profilepic: "/users/4.jpg",
+    },
+    {
+      userid: 5,
+      fname: "Zemen",
+      lname: "Kebede",
+      profilepic: "/users/5.jpg",
+    },
+    {
+      userid: 6,
+      fname: "Zinash",
+      lname: "Amare",
+      profilepic: "/users/6.jpg",
+    },
+    {
+      userid: 7,
+      fname: "Zenit",
+      lname: "Molla",
+      profilepic: "/users/7.jpg",
+    },
+    {
+      userid: 8,
+      fname: "Zerfe",
+      lname: "Moges",
+      profilepic: "/users/8.jpg",
+    },
+    {
+      userid: 10,
+      fname: "Mona",
+      lname: "Abebe",
+      profilepic: "/users/10.jpg",
+    },
+    {
+      userid: 11,
+      fname: "Aman",
+      lname: "Ferede",
+      profilepic: "/users/11.jpg",
+    },
+    {
+      userid: 12,
+      fname: "Bezi",
+      lname: "Afomia",
+      profilepic: "/users/12.jpg",
+    },
+    {
+      userid: 13,
+      fname: "Mani",
+      lname: "Anagaw",
+      profilepic: "/users/13.jpg",
+    },
+    {
+      userid: 14,
+      fname: "Moti",
+      lname: "Zemi",
+      profilepic: "/users/14.jpg",
+    },
+    {
+      userid: 15,
+      fname: "Haymi",
+      lname: "Alaska",
+      profilepic: "/users/15.jpg",
+    },
+  ];
