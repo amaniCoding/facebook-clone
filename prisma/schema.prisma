@@ -48,18 +48,17 @@ enum ShareType {
 }
 
 model User {
-  id                     String                 @id @default(uuid())
-  firstName              String
-  lastName               String
-  birthDate              DateTime
-  gender                 Gender
-  customGender           String?
-  customGenderPronoun    String?
-  email                  String?                @unique
-  phoneNumber            String?                @unique
-  password               String
-  createdAt              DateTime               @default(now())
-  updatedAt              DateTime               @updatedAt
+  id                  String   @id @default(uuid())
+  firstName           String
+  lastName            String
+  birthDate           DateTime
+  gender              Gender
+  customGender        String?
+  customGenderPronoun String?
+  email               String?  @unique
+  phoneNumber         String?  @unique
+  password            String
+
   verificationCode       Int?
   verificationExpiredAt  DateTime?
   isActive               Boolean                @default(false)
@@ -70,7 +69,7 @@ model User {
   recievedFriendRequests FriendRequest[]        @relation("friendrequestreciever")
   post                   UserPost[]
   taggedPosts            Tags[]
-  pages                  Page[]
+  fansOf                 Page[]
   memberOf               GroupMembers[]
   managedPages           Page[]                 @relation("managedpages")
   managedGroups          Group[]
@@ -79,6 +78,8 @@ model User {
   sharedPostsToGroup     UserShareToGroupPost[]
   sentMessages           Message[]              @relation("messagesender")
   recievedMessages       Message[]              @relation("messagereciever")
+  createdAt              DateTime               @default(now())
+  updatedAt              DateTime               @updatedAt
 }
 
 model Firends {
@@ -105,7 +106,7 @@ model UserPost {
   id                  String                 @id @default(uuid())
   postType            PostType               @default(userpost)
   userId              String
-  user                User                   @relation(fields: [userId], references: [id])
+  user                User                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   content             String
   medias              Medias[]
   tags                Tags[]
@@ -123,9 +124,9 @@ model UserPost {
 }
 
 model Medias {
-  id        String   @id @default(ulid())
+  id        String   @id @default(uuid())
   postId    String
-  post      UserPost @relation(fields: [postId], references: [id])
+  post      UserPost @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   url       String
   type      String
   size      Int
@@ -136,10 +137,10 @@ model Medias {
 }
 
 model MessageMedias {
-  id        String   @id @default(ulid())
+  id        String   @id @default(uuid())
   postId    String
   messageId String
-  message   Message  @relation(fields: [messageId], references: [id])
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   url       String
   type      String
   size      Int
@@ -150,9 +151,9 @@ model MessageMedias {
 }
 
 model PageMedias {
-  id         String   @id @default(ulid())
+  id         String   @id @default(uuid())
   pagePostId String
-  pagePost   PagePost @relation(fields: [pagePostId], references: [id])
+  pagePost   PagePost @relation(fields: [pagePostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   url        String
   type       String
   size       Int
@@ -163,9 +164,9 @@ model PageMedias {
 }
 
 model GroupMedias {
-  id          String    @id @default(ulid())
+  id          String    @id @default(uuid())
   groupPostId String
-  groupPost   GroupPost @relation(fields: [groupPostId], references: [id])
+  groupPost   GroupPost @relation(fields: [groupPostId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   url         String
   type        String
   size        Int
@@ -179,8 +180,8 @@ model Tags {
   id        String   @id @default(uuid())
   postId    String
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  post      UserPost @relation(fields: [postId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post      UserPost @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -190,18 +191,20 @@ model Page {
   name               String
   category           String
   userId             String
-  admin              User                   @relation("managedpages", fields: [userId], references: [id])
+  admin              User                   @relation("managedpages", fields: [userId], references: [id], onUpdate: Cascade)
   fans               User[]
   posts              PagePost[]
   sharedPosts        PageSharePost[]
   sharedPostsToGroup PageShareToGroupPost[]
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
 }
 
 model PagePost {
   id                  String                 @id @default(uuid())
   postType            PostType               @default(pagepost)
   pageId              String
-  page                Page                   @relation(fields: [pageId], references: [id])
+  page                Page                   @relation(fields: [pageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   content             String
   medias              PageMedias[]
   location            String
@@ -221,8 +224,8 @@ model GroupPost {
   postType            PostType               @default(grouppost)
   userId              String
   groupId             String
-  user                User                   @relation(fields: [userId], references: [id])
-  group               Group                  @relation(fields: [groupId], references: [id])
+  user                User                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  group               Group                  @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   content             String
   medias              GroupMedias[]
   location            String
@@ -241,7 +244,7 @@ model GroupPost {
 model Group {
   id                           String                 @id @default(uuid())
   userId                       String
-  admin                        User                   @relation(fields: [userId], references: [id])
+  admin                        User                   @relation(fields: [userId], references: [id], onUpdate: Cascade)
   name                         String
   category                     String
   members                      GroupMembers[]
@@ -249,14 +252,16 @@ model Group {
   posts                        GroupPost[]
   sharedPostsToThisGroupByUser UserShareToGroupPost[]
   sharedPostsToThisGroupByPage PageShareToGroupPost[]
+  createdAt                    DateTime               @default(now())
+  updatedAt                    DateTime               @updatedAt
 }
 
 model GroupMembers {
   id        String   @id @default(uuid())
   userId    String
   groupId   String
-  user      User     @relation(fields: [userId], references: [id])
-  group     Group    @relation(fields: [groupId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  group     Group    @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -325,8 +330,8 @@ model PageShareToGroupPost {
   groupPostId  String
   sharingType  String
   groupId      String
-  page         Page           @relation(fields: [pageId], references: [id])
-  toWhichGroup Group          @relation(fields: [groupId], references: [id])
+  page         Page           @relation(fields: [pageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  toWhichGroup Group          @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   userPost  UserPost?  @relation(fields: [userPostId], references: [id])
   pagePost  PagePost?  @relation(fields: [pagePostId], references: [id])
@@ -352,8 +357,8 @@ model UserShareToGroupPost {
   pagePostId   String
   groupPostId  String
   sharingType  String
-  sharer       User           @relation(fields: [userId], references: [id])
-  toWhichGroup Group          @relation(fields: [groupId], references: [id])
+  sharer       User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  toWhichGroup Group          @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userPost     UserPost?      @relation(fields: [userPostId], references: [id])
   pagePost     PagePost?      @relation(fields: [pagePostId], references: [id])
   groupPost    GroupPost?     @relation(fields: [groupPostId], references: [id])
@@ -365,8 +370,8 @@ model Message {
   id            String          @id @default(uuid())
   senderId      String
   recieverId    String
-  sender        User            @relation("messagesender", fields: [senderId], references: [id])
-  reciever      User            @relation("messagereciever", fields: [recieverId], references: [id])
+  sender        User            @relation("messagesender", fields: [senderId], references: [id], onUpdate: Cascade)
+  reciever      User            @relation("messagereciever", fields: [recieverId], references: [id], onUpdate: Cascade)
   seen          Boolean         @default(false)
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt

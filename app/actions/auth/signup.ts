@@ -5,9 +5,10 @@ import prisma from "@/app/libs/prisma";
 
 export async function signUp(formData: UserFormData) {
   try {
-    const birthDateString = `${formData.birthyear}-${formData.birthmonth}-${formData.birthday}`;
+    const newBirthDate = parseInt(formData.birthday) + 1;
+    const birthDateString = `${formData.birthyear}-${formData.birthmonth}-${newBirthDate}`;
 
-    const birthDate = new Date(birthDateString).toISOString();
+    const birthDate = new Date(birthDateString);
     const existingUser = await prisma.user.findFirst({
       where: {
         email: formData.email,

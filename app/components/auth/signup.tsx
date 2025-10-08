@@ -10,9 +10,9 @@ import { BsExclamation } from "react-icons/bs";
 
 export default function SignUp() {
   const currentDate = new Date();
-  const initialDay = currentDate.getDate();
-  const initialMonthIndex = currentDate.getMonth(); // 0 for Jan, 11 for Dec
-  const initialYear = currentDate.getFullYear();
+  const initialDay = currentDate.getUTCDate();
+  const initialMonthIndex = currentDate.getUTCMonth(); // 0 for Jan, 11 for Dec
+  const initialYear = currentDate.getUTCFullYear();
 
   const _dayOptions = Array.from({ length: 31 }, (_, i) => i + 1);
   const yearOptions = Array.from({ length: 100 }, (_, i) => initialYear - i); // e.g., current year +/- 5
@@ -233,7 +233,7 @@ export default function SignUp() {
   return (
     <div className="max-w-md mx-auto">
       <p className="text-5xl my-10 text-blue-600 font-bold text-center">
-        Facebook {new Date("2025-10-08").toISOString()}
+        Facebook {new Date("2025-9-29").toISOString()}
       </p>
 
       <div className="w-full bg-white rounded-lg shadow-xl">
