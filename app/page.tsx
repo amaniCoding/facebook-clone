@@ -1,15 +1,19 @@
+import { redirect } from "next/navigation";
 import Contacts from "./components/home/contacts";
 import Feed from "./components/home/feed";
 import NavBar from "./components/home/navbar";
 import SideBar from "./components/home/sidebar";
+import { auth } from "@/app/libs/auth/auth";
+export default async function Home() {
+  const session = await auth();
 
-export default function Home() {
+  if (!session) redirect("/login");
   return (
     <div className="min-h-screen bg-gray-100">
-      <NavBar />
+      <NavBar loggedInUser={session.user} />
       <div className="flex md:pt-[73px] pt-[55px]">
         <SideBar />
-        <Feed />
+        <Feed loggedInUser={session.user} />
         <Contacts />
       </div>
     </div>

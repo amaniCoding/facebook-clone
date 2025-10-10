@@ -1,4 +1,5 @@
 "use client";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { BiSolidGrid } from "react-icons/bi";
@@ -8,7 +9,12 @@ import { IoNotificationsSharp } from "react-icons/io5";
 import { LiaSellcast } from "react-icons/lia";
 import { LuTvMinimalPlay } from "react-icons/lu";
 import { MdHomeFilled, MdOutlineGroups2 } from "react-icons/md";
-export default function NavBar() {
+import { LoggedInUser } from "./types";
+export default function NavBar({
+  loggedInUser: { profilePicture },
+}: {
+  loggedInUser: LoggedInUser;
+}) {
   return (
     <nav className="py-1.5 px-4 fixed top-0 left-0 right-0 z-20 bg-white w-full shadow-md">
       <div className="flex items-center justify-between">
@@ -16,7 +22,7 @@ export default function NavBar() {
           <Link href={"/"}>
             <Image
               alt="Amanuel Ferede"
-              src={"/feeds/logoc.png"}
+              src={"/brands/logo.png"}
               width={0}
               height={0}
               sizes="100vh"
@@ -52,14 +58,23 @@ export default function NavBar() {
           <FaFacebookMessenger className="w-11 h-11 fill-black p-2 bg-gray-200 rounded-full" />
           <IoNotificationsSharp className="w-11 h-11 fill-black p-2 bg-gray-200 rounded-full" />
 
-          <Image
-            alt="Amanuel Ferede"
-            src={"/users/1.jpg"}
-            width={0}
-            height={0}
-            sizes="100vh"
-            className="w-11 h-11 object-cover rounded-full"
-          />
+          {
+            <Image
+              alt="Amanuel Ferede"
+              src={profilePicture}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-11 h-11 object-cover rounded-full"
+            />
+          }
+          <button
+            onClick={async () =>
+              await signOut({ callbackUrl: "/login", redirect: true })
+            }
+          >
+            SignOut
+          </button>
         </div>
       </div>
     </nav>

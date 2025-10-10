@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import AppProvider from "./store/appprovider";
+import NextAuthSessionProvider from "./providers/nextauthprovider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppProvider>{children}</AppProvider>
+        <NextAuthSessionProvider>
+          <AppProvider>{children}</AppProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

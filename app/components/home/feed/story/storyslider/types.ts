@@ -5,3 +5,10 @@ export type StorySliderProps = {
   profilepic: string;
   post: string;
 };
+
+export type LoggedInUser = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  profilePicture: string;
+};

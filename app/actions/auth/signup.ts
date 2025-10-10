@@ -2,6 +2,7 @@
 
 import { UserFormData } from "@/app/libs/schemas/user-schema";
 import prisma from "@/app/libs/prisma";
+import bcrypt from "bcryptjs";
 
 export async function signUp(formData: UserFormData) {
   try {
@@ -33,18 +34,17 @@ export async function signUp(formData: UserFormData) {
           ? formData.customgenderpronoun
           : null,
         email: formData.email,
-        password: formData.password,
+        password: await bcrypt.hash(formData.password, 10),
       },
     });
 
     if (user) {
       return {
         success: true,
+        id: user.id,
       };
     }
-  } catch (error) {
-    // Handle other unexpected errors
-    console.error("An unexpected error occurred:", error);
+  } catch {
   } finally {
     prisma.$disconnect();
   }

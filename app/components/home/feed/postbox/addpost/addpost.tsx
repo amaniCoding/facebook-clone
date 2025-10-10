@@ -10,10 +10,14 @@ import {
   showPostBox,
 } from "@/app/store/slices/user/post/postSlice";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { postOption } from "./types";
+import { LoggedInUser, postOption } from "./types";
 import PostModal from "../postmodal/postmodal";
 
-export default function AddPost() {
+export default function AddPost({
+  loggedInUser: { profilePicture },
+}: {
+  loggedInUser: LoggedInUser;
+}) {
   const [showPostModal, setShowPostModal] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const post = useAppSelector((state) => state.userPost.post);
@@ -27,18 +31,22 @@ export default function AddPost() {
     setShowPostModal(false);
     dispatch(showPostBox(false));
   };
+
   return (
     <>
       <div className=" mb-4 px-3 bg-white rounded-lg">
         <div className="w-full px-3 py-3 border-b border-b-gray-100 flex md:items-center space-x-3">
-          <Image
-            alt="Amanuel Ferede"
-            src={"/users/1.jpg"}
-            width={0}
-            height={0}
-            sizes="100vh"
-            className="w-10 h-10 object-cover rounded-full border-2 border-black/40"
-          />
+          {
+            <Image
+              alt="Amanuel Ferede"
+              src={profilePicture}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-11 h-11 object-cover rounded-full"
+            />
+          }
+
           <input
             type="text"
             placeholder="What is on your mind, Amanuel"

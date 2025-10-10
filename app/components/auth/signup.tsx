@@ -3,6 +3,8 @@
 import { signUp } from "@/app/actions/auth/signup";
 import { UserFormData, userSchema } from "@/app/libs/schemas/user-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,6 +20,7 @@ export default function SignUp() {
   const yearOptions = Array.from({ length: 100 }, (_, i) => initialYear - i); // e.g., current year +/- 5
 
   const [focusedFields, setFocusedFields] = useState<string>("");
+  const [signing, setSigning] = useState<boolean>(false);
   const [shouldShowFnameExclamationMark, setShouldShowFnameExclamationMark] =
     useState<boolean>(false);
   const [shouldShowLnameExclamationMark, setShouldShowLnameExclamationMark] =
@@ -74,6 +77,7 @@ export default function SignUp() {
 
   const month = watch("birthmonth");
   const year = watch("birthyear");
+  const router = useRouter();
 
   useEffect(() => {
     setValue("birthmonth", String(initialMonthIndex + 1));
@@ -83,6 +87,7 @@ export default function SignUp() {
   }, [setValue]);
   const registerUser = async (data: UserFormData) => {
     try {
+      setSigning(true);
       const result = await signUp(data);
       if (result?.errors) {
         Object.entries(result?.errors).forEach(([field, message]) =>
@@ -94,14 +99,28 @@ export default function SignUp() {
       }
 
       if (result?.success) {
-        alert("Form submitted");
+        await signIn("credentials", {
+          isNewUser: true,
+          id: result.id,
+          email: data.email,
+          firstName: data.fname,
+          lastName: data.lname,
+          profilePicture:
+            data.gender === "male"
+              ? "/brands/male-d.jpg"
+              : "/brands/female-d.jpg",
+          redirect: false,
+        });
+
+        router.push("/steps");
       }
       console.log("submitting", isSubmitting);
       console.log("isbmitted", isSubmitted);
       console.log("submitting successfull", isSubmitSuccessful);
       console.log("data", data);
     } catch (error) {
-      console.log("Error", error);
+      console.log(error);
+      setSigning(false);
     }
   };
 
@@ -122,6 +141,7 @@ export default function SignUp() {
 
   const handleFocus = (
     fieldName: keyof UserFormData,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     gender?: "male" | "female" | "custom"
   ) => {
     if (errors[fieldName] || isSubmitting) {
@@ -143,35 +163,6 @@ export default function SignUp() {
 
       case "password":
         setShouldShowPasswordExclamationMark(false);
-        break;
-
-      case "gender":
-        switch (gender) {
-          case "male":
-            setShouldShowCustomGenderBox(false);
-            setValue("gender", "male");
-            setValue("customgenderpronoun", "");
-            setError("customgenderpronoun", {
-              message: undefined,
-            });
-            break;
-          case "female":
-            setShouldShowCustomGenderBox(false);
-            setValue("gender", "female");
-            setValue("customgenderpronoun", "");
-            setError("customgenderpronoun", {
-              message: undefined,
-            });
-            break;
-          case "custom":
-            setShouldShowCustomGenderBox(true);
-            setValue("gender", "custom");
-            setShouldShowCustomGenderExclamationMark(false);
-            break;
-          default:
-            break;
-        }
-
         break;
       case "birthday":
         setShouldShowBirthDayExclamationMark(false);
@@ -230,11 +221,37 @@ export default function SignUp() {
     }
   };
 
+  function handelClickGender(gender: string): void {
+    switch (gender) {
+      case "male":
+        setShouldShowCustomGenderBox(false);
+        setValue("gender", "male");
+        setValue("customgenderpronoun", "");
+        setError("customgenderpronoun", {
+          message: undefined,
+        });
+        break;
+      case "female":
+        setShouldShowCustomGenderBox(false);
+        setValue("gender", "female");
+        setValue("customgenderpronoun", "");
+        setError("customgenderpronoun", {
+          message: undefined,
+        });
+        break;
+      case "custom":
+        setShouldShowCustomGenderBox(true);
+        setValue("gender", "custom");
+        setShouldShowCustomGenderExclamationMark(false);
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <div className="max-w-md mx-auto">
-      <p className="text-5xl my-10 text-blue-600 font-bold text-center">
-        Facebook {new Date("2025-9-29").toISOString()}
-      </p>
+      <p className="text-5xl my-10 text-blue-600 font-bold text-center"></p>
 
       <div className="w-full bg-white rounded-lg shadow-xl">
         <div className="w-full border-b border-b-gray-100 py-2">
@@ -243,7 +260,7 @@ export default function SignUp() {
           </p>
           <p className="my-1 text-center">It’s quick and easy.</p>
         </div>
-        <form onSubmit={handleSubmit(registerUser)} action={"a.php"}>
+        <form onSubmit={handleSubmit(registerUser)}>
           <div className="p-4">
             <div className="grid grid-cols-2 gap-4 relative">
               {focusedFields === "fname" && errors.fname?.message && (
@@ -253,7 +270,7 @@ export default function SignUp() {
               )}
 
               {focusedFields === "lname" && errors.lname?.message && (
-                <div className="absolute -right-[40%] text-sm z-10 py-4 -top-2 px-3 bg-red-700 text-white rounded-md">
+                <div className="absolute  right-11 text-sm z-10 py-3 top-full mt-1 px-3 bg-red-700 text-white rounded-md">
                   {errors.lname?.message}
                 </div>
               )}
@@ -423,7 +440,7 @@ export default function SignUp() {
                     ? "border border-red-500"
                     : ""
                 }  w-full px-2 py-1.5 border border-gray-400/55 rounded-sm`}
-                onClick={() => handleFocus("gender", "female")}
+                onClick={() => handelClickGender("female")}
               >
                 <span>Female</span>
                 <input
@@ -439,7 +456,7 @@ export default function SignUp() {
                     ? "border border-red-500"
                     : ""
                 }  w-full px-2 py-1.5 border border-gray-400/55 rounded-sm`}
-                onClick={() => handleFocus("gender", "male")}
+                onClick={() => handelClickGender("male")}
               >
                 <span>Male</span>
                 <input
@@ -455,7 +472,7 @@ export default function SignUp() {
                     ? "border border-red-500"
                     : ""
                 }  w-full px-2 py-1.5 border border-gray-400/55 rounded-sm`}
-                onClick={() => handleFocus("gender", "custom")}
+                onClick={() => handelClickGender("custom")}
               >
                 <span>Custom</span>
                 <input
@@ -578,7 +595,7 @@ export default function SignUp() {
                   onBlur={() => {
                     handleBlur("password");
                   }}
-                  type="text"
+                  type="password"
                   name="password"
                   placeholder="New password"
                   className={`${
@@ -617,9 +634,9 @@ export default function SignUp() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="focus:bg-yellow-200 cursor-pointer hover:bg-green-500 text-center block w-1/2 px-2 py-1.5 bg-green-600 text-white rounded-md"
+                className="cursor-pointer hover:bg-green-500 text-center block w-1/2 px-2 py-1.5 bg-green-600 text-white rounded-md"
               >
-                {isSubmitting ? "Signing up" : "Sign up"}
+                {signing ? "Signing up" : "Sign up"}
               </button>
             </div>
           </div>
