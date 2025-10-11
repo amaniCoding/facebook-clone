@@ -47,6 +47,16 @@ enum ShareType {
   pagepost
 }
 
+enum ReactionType {
+  like
+  love
+  sad
+  angry
+  care
+  haha
+  wow
+}
+
 model User {
   id                  String   @id @default(uuid())
   firstName           String
@@ -81,6 +91,38 @@ model User {
   createdAt              DateTime               @default(now())
   updatedAt              DateTime               @updatedAt
   stories                UserStory[]
+
+  commentsFromUserPost             UserPostComment[]
+  commentsFromPagePost             PagePostComment[]
+  commentsFromGroupPost            GroupPostComment[]
+  commentsFromUserSharePost        UserSharePostComment[]
+  commentsFromPageSharePost        PageSharePostComment[]
+  commentsFromUserSharePostToGroup UserSharePostToGroupComment[]
+  commentsFromPageSharePostToGroup PageSharePostToGroupComment[]
+
+  repliesForUserPostComment      RepliesForUserPostComment[]
+  repliesForPagePostComment      RepliesForPagePostComment[]
+  repliesForGroupPostComment     RepliesForGroupPostComment[]
+  repliesForUserSharePostComment RepliesForUserSharePostComment[]
+  repliesForPageSharePostComment RepliesForPageSharePostComment[]
+  repliesForUserSharePostToGroup RepliesForUserSharePostToGroupComment[]
+  repliesForPageSharePostToGroup RepliesForPageSharePostToGroupComment[]
+
+  ReactionsForUserPostComment             ReactionsForUserPostComment[]
+  ReactionsForPagePostComment             ReactionsForPagePostComment[]
+  ReactionsForGroupPostComment            ReactionsForGroupPostComment[]
+  ReactionsForUserSharePostComment        ReactionsForUserSharePostComment[]
+  ReactionsForPageSharePostComment        ReactionsForPageSharePostComment[]
+  ReactionsForUserSharePostToGroupComment ReactionsForUserSharePostToGroupComment[]
+  ReactionsForPageSharePostToGroupComment ReactionsForPageSharePostToGroupComment[]
+
+  ReactionsForPageSharePostCommentReply        ReactionsForPageSharePostCommentReply[]
+  ReactionsForUserSharePostCommentReply        ReactionsForUserSharePostCommentReply[]
+  ReactionsForUserSharePostToGroupCommentReply ReactionsForUserSharePostToGroupCommentReply[]
+  ReactionsForPageSharePostToGroupCommentReply ReactionsForPageSharePostToGroupCommentReply[]
+  ReactionsForUserPostCommentReply             ReactionsForUserPostCommentReply[]
+  ReactionsForPagePostCommentReply             ReactionsForPagePostCommentReply[]
+  ReactionsForGroupPostCommentReply            ReactionsForGroupPostCommentReply[]
 }
 
 model Firends {
@@ -120,6 +162,7 @@ model UserPost {
   sharesByPage        PageSharePost[]
   sharesByPageToGroup PageShareToGroupPost[]
   sharesByUserToGroup UserShareToGroupPost[]
+  comments            UserPostComment[]
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
 }
@@ -217,6 +260,7 @@ model PagePost {
   sharesByPage        PageSharePost[]
   sharesByPageToGroup PageShareToGroupPost[]
   sharesByUserToGroup UserShareToGroupPost[]
+  pagePostComments    PagePostComment[]
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
 }
@@ -239,6 +283,7 @@ model GroupPost {
   sharesByPage        PageSharePost[]
   sharesByPageToGroup PageShareToGroupPost[]
   sharesByUserToGroup UserShareToGroupPost[]
+  groupPostComments   GroupPostComment[]
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
 }
@@ -269,26 +314,27 @@ model GroupMembers {
 }
 
 model UserSharePost {
-  id          String         @id @default(uuid())
-  postType    PostType       @default(usersharepost)
-  shareType   ShareType
-  content     String
-  doing       String
-  doingWhat   String
-  audience    Audinece       @default(friends)
-  cAudience   SuperAudinece?
-  userId      String
-  location    String
-  userPostId  String
-  pagePostId  String
-  groupPostId String
-  sharingType String
-  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userPost    UserPost?      @relation(fields: [userPostId], references: [id])
-  pagePost    PagePost?      @relation(fields: [pagePostId], references: [id])
-  groupPost   GroupPost?     @relation(fields: [groupPostId], references: [id])
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id                    String                 @id @default(uuid())
+  postType              PostType               @default(usersharepost)
+  shareType             ShareType
+  content               String
+  doing                 String
+  doingWhat             String
+  audience              Audinece               @default(friends)
+  cAudience             SuperAudinece?
+  userId                String
+  location              String
+  userPostId            String
+  pagePostId            String
+  groupPostId           String
+  sharingType           String
+  user                  User                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userPost              UserPost?              @relation(fields: [userPostId], references: [id])
+  pagePost              PagePost?              @relation(fields: [pagePostId], references: [id])
+  groupPost             GroupPost?             @relation(fields: [groupPostId], references: [id])
+  userSharePostComments UserSharePostComment[]
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
 }
 
 model PageSharePost {
@@ -299,7 +345,7 @@ model PageSharePost {
   content     String
   doing       String
   doingWhat   String
-  audience    Audinece       @default(friends)
+  audience    Audinece               @default(friends)
   cAudience   SuperAudinece?
   pageId      String
   location    String
@@ -307,12 +353,13 @@ model PageSharePost {
   pagePostId  String
   groupPostId String
   sharingType String
-  page        Page           @relation(fields: [pageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userPost    UserPost?      @relation(fields: [userPostId], references: [id])
-  pagePost    PagePost?      @relation(fields: [pagePostId], references: [id])
-  groupPost   GroupPost?     @relation(fields: [groupPostId], references: [id])
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  page        Page                   @relation(fields: [pageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userPost    UserPost?              @relation(fields: [userPostId], references: [id])
+  pagePost    PagePost?              @relation(fields: [pagePostId], references: [id])
+  groupPost   GroupPost?             @relation(fields: [groupPostId], references: [id])
+  comments    PageSharePostComment[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
 }
 
 model PageShareToGroupPost {
@@ -335,11 +382,12 @@ model PageShareToGroupPost {
   page         Page           @relation(fields: [pageId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   toWhichGroup Group          @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  userPost  UserPost?  @relation(fields: [userPostId], references: [id])
-  pagePost  PagePost?  @relation(fields: [pagePostId], references: [id])
-  groupPost GroupPost? @relation(fields: [groupPostId], references: [id])
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  userPost  UserPost?                     @relation(fields: [userPostId], references: [id])
+  pagePost  PagePost?                     @relation(fields: [pagePostId], references: [id])
+  groupPost GroupPost?                    @relation(fields: [groupPostId], references: [id])
+  comments  PageSharePostToGroupComment[]
+  createdAt DateTime                      @default(now())
+  updatedAt DateTime                      @updatedAt
 }
 
 model UserShareToGroupPost {
@@ -350,7 +398,7 @@ model UserShareToGroupPost {
   content      String
   doing        String
   doingWhat    String
-  audience     Audinece       @default(friends)
+  audience     Audinece                      @default(friends)
   cAudience    SuperAudinece?
   userId       String
   groupId      String
@@ -359,13 +407,14 @@ model UserShareToGroupPost {
   pagePostId   String
   groupPostId  String
   sharingType  String
-  sharer       User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  toWhichGroup Group          @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userPost     UserPost?      @relation(fields: [userPostId], references: [id])
-  pagePost     PagePost?      @relation(fields: [pagePostId], references: [id])
-  groupPost    GroupPost?     @relation(fields: [groupPostId], references: [id])
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  sharer       User                          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  toWhichGroup Group                         @relation(fields: [groupId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userPost     UserPost?                     @relation(fields: [userPostId], references: [id])
+  pagePost     PagePost?                     @relation(fields: [pagePostId], references: [id])
+  groupPost    GroupPost?                    @relation(fields: [groupPostId], references: [id])
+  comments     UserSharePostToGroupComment[]
+  createdAt    DateTime                      @default(now())
+  updatedAt    DateTime                      @updatedAt
 }
 
 model Message {
@@ -416,4 +465,394 @@ model PageStory {
   medias    PageStoryMedias[]
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
+}
+
+model UserPostComment {
+  id                          String                        @id @default(uuid())
+  postId                      String
+  userId                      String
+  user                        User                          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post                        UserPost                      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl                    String
+  content                     String
+  replies                     RepliesForUserPostComment[]
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  ReactionsForUserPostComment ReactionsForUserPostComment[]
+
+  ReactionsForUserPostCommentReply ReactionsForUserPostCommentReply[]
+}
+
+model PagePostComment {
+  id                          String                        @id @default(uuid())
+  postId                      String
+  userId                      String
+  user                        User                          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post                        PagePost                      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl                    String
+  content                     String
+  replies                     RepliesForPagePostComment[]
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  ReactionsForPagePostComment ReactionsForPagePostComment[]
+
+  ReactionsForPagePostCommentReply ReactionsForPagePostCommentReply[]
+}
+
+model GroupPostComment {
+  id                           String                         @id @default(uuid())
+  postId                       String
+  userId                       String
+  user                         User                           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post                         GroupPost                      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl                     String
+  content                      String
+  replies                      RepliesForGroupPostComment[]
+  createdAt                    DateTime                       @default(now())
+  updatedAt                    DateTime                       @updatedAt
+  ReactionsForGroupPostComment ReactionsForGroupPostComment[]
+
+  ReactionsForGroupPostCommentReply ReactionsForGroupPostCommentReply[]
+}
+
+model UserSharePostComment {
+  id                               String                             @id @default(uuid())
+  postId                           String
+  userId                           String
+  user                             User                               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post                             UserSharePost                      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl                         String
+  content                          String
+  replies                          RepliesForUserSharePostComment[]
+  createdAt                        DateTime                           @default(now())
+  updatedAt                        DateTime                           @updatedAt
+  ReactionsForUserSharePostComment ReactionsForUserSharePostComment[]
+
+  ReactionsForUserSharePostCommentReply ReactionsForUserSharePostCommentReply[]
+}
+
+model PageSharePostComment {
+  id                               String                             @id @default(uuid())
+  postId                           String
+  userId                           String
+  user                             User                               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post                             PageSharePost                      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl                         String
+  content                          String
+  replies                          RepliesForPageSharePostComment[]
+  createdAt                        DateTime                           @default(now())
+  updatedAt                        DateTime                           @updatedAt
+  ReactionsForPageSharePostComment ReactionsForPageSharePostComment[]
+
+  ReactionsForPageSharePostCommentReply ReactionsForPageSharePostCommentReply[]
+}
+
+model UserSharePostToGroupComment {
+  id                                      String                                    @id @default(uuid())
+  postId                                  String
+  userId                                  String
+  user                                    User                                      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post                                    UserShareToGroupPost                      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl                                String
+  content                                 String
+  replies                                 RepliesForUserSharePostToGroupComment[]
+  createdAt                               DateTime                                  @default(now())
+  updatedAt                               DateTime                                  @updatedAt
+  ReactionsForUserSharePostToGroupComment ReactionsForUserSharePostToGroupComment[]
+
+  ReactionsForUserSharePostToGroupCommentReply ReactionsForUserSharePostToGroupCommentReply[]
+}
+
+model PageSharePostToGroupComment {
+  id                                      String                                    @id @default(uuid())
+  postId                                  String
+  userId                                  String
+  user                                    User                                      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  post                                    PageShareToGroupPost                      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl                                String
+  content                                 String
+  replies                                 RepliesForPageSharePostToGroupComment[]
+  createdAt                               DateTime                                  @default(now())
+  updatedAt                               DateTime                                  @updatedAt
+  ReactionsForPageSharePostToGroupComment ReactionsForPageSharePostToGroupComment[]
+
+  ReactionsForPageSharePostToGroupCommentReply ReactionsForPageSharePostToGroupCommentReply[]
+}
+
+/**
+ * replies
+ */
+
+model RepliesForUserPostComment {
+  id        String          @id @default(uuid())
+  commentId String
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment   UserPostComment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl  String
+  content   String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model RepliesForPagePostComment {
+  id        String          @id @default(uuid())
+  commentId String
+  userId    String
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment   PagePostComment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl  String
+  content   String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model RepliesForGroupPostComment {
+  id        String           @id @default(uuid())
+  commentId String
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment   GroupPostComment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl  String
+  content   String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model RepliesForUserSharePostComment {
+  id        String               @id @default(uuid())
+  commentId String
+  userId    String
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment   UserSharePostComment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl  String
+  content   String
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+}
+
+model RepliesForPageSharePostComment {
+  id        String               @id @default(uuid())
+  commentId String
+  userId    String
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment   PageSharePostComment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl  String
+  content   String
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+}
+
+model RepliesForUserSharePostToGroupComment {
+  id        String                      @id @default(uuid())
+  commentId String
+  userId    String
+  user      User                        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment   UserSharePostToGroupComment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl  String
+  content   String
+  createdAt DateTime                    @default(now())
+  updatedAt DateTime                    @updatedAt
+}
+
+model RepliesForPageSharePostToGroupComment {
+  id        String                      @id @default(uuid())
+  commentId String
+  userId    String
+  user      User                        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment   PageSharePostToGroupComment @relation(fields: [commentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl  String
+  content   String
+  createdAt DateTime                    @default(now())
+  updatedAt DateTime                    @updatedAt
+}
+
+/**
+ * comment reactions *
+ */
+
+model ReactionsForUserPostComment {
+  id           String          @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      UserPostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model ReactionsForPagePostComment {
+  id           String          @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      PagePostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model ReactionsForGroupPostComment {
+  id           String           @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      GroupPostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model ReactionsForUserSharePostComment {
+  id           String               @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      UserSharePostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+model ReactionsForPageSharePostComment {
+  id           String               @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      PageSharePostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+model ReactionsForUserSharePostToGroupComment {
+  id           String                      @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      UserSharePostToGroupComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+}
+
+model ReactionsForPageSharePostToGroupComment {
+  id           String                      @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      PageSharePostToGroupComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+}
+
+/**
+ * reply reactions
+ */
+
+model ReactionsForUserPostCommentReply {
+  id           String          @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      UserPostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model ReactionsForPagePostCommentReply {
+  id           String          @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      PagePostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+model ReactionsForGroupPostCommentReply {
+  id           String           @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      GroupPostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model ReactionsForUserSharePostCommentReply {
+  id           String               @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      UserSharePostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+model ReactionsForPageSharePostCommentReply {
+  id           String               @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      PageSharePostComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+model ReactionsForUserSharePostToGroupCommentReply {
+  id           String                      @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      UserSharePostToGroupComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
+}
+
+model ReactionsForPageSharePostToGroupCommentReply {
+  id           String                      @id @default(uuid())
+  replyId      String
+  reactionType ReactionType
+  userId       String
+  user         User                        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  comment      PageSharePostToGroupComment @relation(fields: [replyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  mediaUrl     String
+  content      String
+  createdAt    DateTime                    @default(now())
+  updatedAt    DateTime                    @updatedAt
 }
