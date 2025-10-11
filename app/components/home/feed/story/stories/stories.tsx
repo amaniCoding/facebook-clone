@@ -8,7 +8,7 @@ export default async function Stories({
   loggedInUser: LoggedInUser;
 }) {
   return (
-    <div className="w-full h-60 mb-4">
+    <div className="w-full h-50 mb-10">
       <StorySlider stories={stories} loggedInUser={loggedInUser} />
     </div>
   );

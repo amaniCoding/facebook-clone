@@ -14,7 +14,7 @@ export default function StorySliderItem(props: StorySliderProps) {
             width={0}
             height={0}
             sizes="100vh"
-            className="w-full h-60 object-cover group-hover:scale-105 transition-all duration-300 ease-in-out"
+            className="w-full h-55 object-cover group-hover:scale-105 transition-all duration-300 ease-in-out"
           />
 
           <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-transparent to-black/60"></div>

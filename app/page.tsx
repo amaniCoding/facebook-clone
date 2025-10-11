@@ -12,7 +12,7 @@ export default async function Home() {
     <div className="min-h-screen bg-gray-100">
       <NavBar loggedInUser={session.user} />
       <div className="flex md:pt-[73px] pt-[55px]">
-        <SideBar />
+        <SideBar loggedInUser={session.user} />
         <Feed loggedInUser={session.user} />
         <Contacts />
       </div>

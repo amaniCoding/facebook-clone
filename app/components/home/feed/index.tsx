@@ -7,7 +7,7 @@ import { LoggedInUser } from "./types";
 
 export default function Feed({ loggedInUser }: { loggedInUser: LoggedInUser }) {
   return (
-    <div className="xl:w-[40%] lg:w-[95%] xl:ml-[30%] lg:ml-[30%] w-full">
+    <div className="w-[37%] ml-[30%] ">
       <AddPost loggedInUser={loggedInUser} />
       <Suspense fallback={<Story />}>
         <Stories loggedInUser={loggedInUser} />

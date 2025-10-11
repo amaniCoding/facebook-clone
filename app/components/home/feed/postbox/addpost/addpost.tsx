@@ -2,8 +2,6 @@
 import Image from "next/image";
 
 import { useState } from "react";
-import { RiLiveFill } from "react-icons/ri";
-import { MdPhotoLibrary } from "react-icons/md";
 import { FaRegSmile } from "react-icons/fa";
 import {
   setPostOption,
@@ -34,8 +32,8 @@ export default function AddPost({
 
   return (
     <>
-      <div className=" mb-4 px-3 bg-white rounded-lg">
-        <div className="w-full px-3 py-3 border-b border-b-gray-100 flex md:items-center space-x-3">
+      <div className=" mb-4 p-3 bg-white rounded-xl">
+        <div className="w-full border-b border-b-gray-100 flex md:items-center space-x-3 pb-2.5">
           {
             <Image
               alt="Amanuel Ferede"
@@ -43,7 +41,7 @@ export default function AddPost({
               width={0}
               height={0}
               sizes="100vh"
-              className="w-11 h-11 object-cover rounded-full"
+              className="w-9 h-9 object-cover rounded-full"
             />
           }
 
@@ -59,9 +57,16 @@ export default function AddPost({
           ></input>
         </div>
 
-        <div className="flex items-center xl:justify-center justify-between space-x-2 py-2">
+        <div className="flex items-center xl:justify-center justify-between space-x-2 my-1.5">
           <button className="rounded-md hover:bg-gray-100 px-3 flex items-center space-x-2 py-2">
-            <RiLiveFill className="w-7 h-7 fill-red-500" />
+            <Image
+              alt="Amanuel Ferede"
+              src={`/addpost/video.png`}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-8 h-8"
+            />{" "}
             <span className="md:block hidden">Live Video</span>
           </button>
           <button
@@ -70,7 +75,14 @@ export default function AddPost({
               handelShowPostBox("textwithphoto");
             }}
           >
-            <MdPhotoLibrary className="w-7 h-7 fill-green-500" />
+            <Image
+              alt="Amanuel Ferede"
+              src={`/addpost/photos.png`}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-8 h-8"
+            />{" "}
             <span className="md:block hidden">Photo / Video</span>
           </button>
           <button className="rounded-md hover:bg-gray-100 px-3 flex items-center space-x-2 py-2">

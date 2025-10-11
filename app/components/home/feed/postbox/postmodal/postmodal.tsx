@@ -1,12 +1,8 @@
 "use client";
-import { FaLocationDot, FaLock, FaXmark } from "react-icons/fa6";
+import { FaLock, FaXmark } from "react-icons/fa6";
 import Image from "next/image";
 import { BsEmojiAstonished } from "react-icons/bs";
-import { GrGallery } from "react-icons/gr";
-import { FaUserFriends } from "react-icons/fa";
-import { HiOutlineEmojiHappy } from "react-icons/hi";
-import { PiGifFill } from "react-icons/pi";
-import { IoIosMore } from "react-icons/io";
+
 import { setPost, setPostOption } from "@/app/store/slices/user/post/postSlice";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
@@ -31,9 +27,6 @@ export default function PostModal(props: { onClose: () => void }) {
   const { pending } = useFormStatus();
   const showDialog = () => {
     input.current?.click();
-  };
-  const choosePhoto = () => {
-    dispatch(setPostOption("textwithphoto"));
   };
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -93,9 +86,9 @@ export default function PostModal(props: { onClose: () => void }) {
 
   return (
     <>
-      <section className="bg-gray-100/75 fixed top-0 bottom-0 left-0 right-0 z-20 overflow-hidden">
+      <section className="bg-gray-100/80 fixed top-0 bottom-0 left-0 right-0 z-20 overflow-hidden">
         <div
-          className={`max-w-[517px] mx-auto relative shadow-lg rounded-xl bg-white 
+          className={`max-w-[517px] mx-auto relative  shadow-2xl rounded-xl bg-white 
             `}
           style={getClassName()}
         >
@@ -125,7 +118,7 @@ export default function PostModal(props: { onClose: () => void }) {
                 width={0}
                 height={0}
                 sizes="100vh"
-                className="w-10 h-10 object-cover rounded-full border-2 border-blue-700"
+                className="w-8 h-8 object-cover rounded-full border-2 border-blue-700"
               />
 
               <div className="flex flex-col pb-3 space-y-1">
@@ -149,10 +142,8 @@ export default function PostModal(props: { onClose: () => void }) {
               <textarea
                 ref={textAreaForText}
                 placeholder="What's in your mind, Amanuel"
-                className={`placeholder:text-gray-500 auto pb-2 text-wrap resize-none
-                outline-none pl-3 block field-sizing-content min-h-auto border-none outline-0 w-full overflow-y-auto ${
-                  postOption !== "showphoto" ? "block" : "hidden"
-                }`}
+                className={`pb-20 placeholder:text-gray-500 auto text-wrap resize-none
+                outline-none pl-3 block field-sizing-content border-none outline-0 w-full overflow-y-auto`}
                 value={post}
                 onChange={onChangePost}
                 name="post"
@@ -182,37 +173,64 @@ export default function PostModal(props: { onClose: () => void }) {
                   onChange={onChangeFile}
                   className="relative hidden"
                 ></input>
-                <div className="p-2 w-full relative border border-gray-50 rounded-xl group">
-                  <FaXmark
-                    className="p-2 w-8 z-[400] peer  h-8  border border-gray-300 absolute right-4 top-4 cursor-pointer bg-white rounded-full hover:bg-gray-100"
-                    onClick={() => dispatch(setPostOption("textonly"))}
-                  />
-                  <div
-                    className={`cursor-pointer peer-hover:bg-gray-50 peer py-[3rem] flex items-center justify-center rounded-xl bg-gray-50 group-hover:bg-gray-100`}
-                    onClick={showDialog}
-                  >
-                    <div className=" flex flex-col space-y-1.5 items-center justify-center">
-                      <GrGallery className="w-6 h-6 text-green-600 cursor-pointer" />
-                      <p className="text-sm font-medium">Add photos/videos</p>
-                      <p className="text-gray-600 text-sm">or drag and drop</p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 
             <div className="mb-4 p-3 border border-gray-300 rounded-lg flex items-center justify-between">
               <p>Add to your post</p>
-              <div className="flex items-center space-x-4">
-                <GrGallery
-                  className="w-6 h-6 text-green-600 cursor-pointer"
-                  onClick={choosePhoto}
-                />
-                <FaUserFriends className="w-6 h-6 fill-blue-600" />
-                <HiOutlineEmojiHappy className="w-6 h-6 text-yellow-600" />
-                <FaLocationDot className="w-6 h-6 fill-red-600" />
-                <PiGifFill className="w-6 h-6 fill-green-600" />
-                <IoIosMore className="w-6 h-6 fill-gray-600" />
+              <div className="flex items-center space-x-1">
+                <div className="p-1 hover:bg-gray-100 rounded-full">
+                  <Image
+                    onClick={showDialog}
+                    alt="Amanuel Ferede"
+                    src={"/postmodal/photos.png"}
+                    width={0}
+                    height={0}
+                    sizes="100vh"
+                    className="w-8 h-8 object-cover cursor-pointer"
+                  />
+                </div>
+
+                <div className="p-1 hover:bg-gray-100 rounded-full">
+                  <Image
+                    alt="Amanuel Ferede"
+                    src={"/postmodal/facebook.png"}
+                    width={0}
+                    height={0}
+                    sizes="100vh"
+                    className="w-8 h-8 object-cover"
+                  />
+                </div>
+                <div className="p-1 hover:bg-gray-100 rounded-full">
+                  <Image
+                    alt="Amanuel Ferede"
+                    src={"/postmodal/happy.png"}
+                    width={0}
+                    height={0}
+                    sizes="100vh"
+                    className="w-8 h-8 object-cover"
+                  />
+                </div>
+                <div className="p-1 hover:bg-gray-100 rounded-full">
+                  <Image
+                    alt="Amanuel Ferede"
+                    src={"/postmodal/location-pin.png"}
+                    width={0}
+                    height={0}
+                    sizes="100vh"
+                    className="w-8 h-8 object-cover"
+                  />
+                </div>
+                <div className="p-1 hover:bg-gray-100 rounded-full">
+                  <Image
+                    alt="Amanuel Ferede"
+                    src={"/postmodal/gif-symbol.png"}
+                    width={0}
+                    height={0}
+                    sizes="100vh"
+                    className="w-8 h-8 object-cover"
+                  />
+                </div>
               </div>
             </div>
             <button

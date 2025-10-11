@@ -1,15 +1,13 @@
 "use client";
-import { signOut } from "next-auth/react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { BiSolidGrid } from "react-icons/bi";
 import { FaFacebookMessenger } from "react-icons/fa6";
-import { GiGamepad } from "react-icons/gi";
 import { IoNotificationsSharp } from "react-icons/io5";
-import { LiaSellcast } from "react-icons/lia";
-import { LuTvMinimalPlay } from "react-icons/lu";
-import { MdHomeFilled, MdOutlineGroups2 } from "react-icons/md";
+
 import { LoggedInUser } from "./types";
+import { data } from "./data";
 export default function NavBar({
   loggedInUser: { profilePicture },
 }: {
@@ -22,11 +20,11 @@ export default function NavBar({
           <Link href={"/"}>
             <Image
               alt="Amanuel Ferede"
-              src={"/brands/logo.png"}
+              src={"/brands/fbl.png"}
               width={0}
               height={0}
               sizes="100vh"
-              className="w-10 h-10 object-center rounded-full border-2 border-blue-700"
+              className="w-10 h-10 object-center rounded-full "
             />
           </Link>
           <input
@@ -34,25 +32,21 @@ export default function NavBar({
             placeholder="Search Developers ..."
           ></input>
         </div>
-        <div className="xl:flex hidden items-center space-x-3 text-gray-500">
-          <div className="flex items-center justify-center px-10 py-1.5 relative rounded-lg hover:bg-gray-50">
-            <MdHomeFilled className="w-8 h-8  fill-blue-600" />
-            <div className="absolute border-b-4 border-b-blue-600 w-full -bottom-1.5"></div>
+        {data.map((data, index) => (
+          <div
+            key={index}
+            className="flex items-center justify-center px-10 py-1.5 relative rounded-lg hover:bg-gray-50"
+          >
+            <Image
+              alt="Amanuel Ferede"
+              src={data.icon}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-8 h-8 "
+            />
           </div>
-
-          <div className="flex items-center justify-center px-10 py-1.5 rounded-lg hover:bg-gray-50">
-            <LuTvMinimalPlay className="w-8 h-8 " />
-          </div>
-          <div className="flex items-center justify-center px-10 py-1.5 rounded-lg hover:bg-gray-50">
-            <LiaSellcast className="w-8 h-8 " />
-          </div>
-          <div className="flex items-center justify-center px-10 py-1.5 rounded-lg hover:bg-gray-50">
-            <MdOutlineGroups2 className="w-8 h-8 " />
-          </div>
-          <div className="flex items-center justify-center px-10 py-1.5 rounded-lg hover:bg-gray-50">
-            <GiGamepad className="w-8 h-8" />{" "}
-          </div>
-        </div>
+        ))}
         <div className="flex items-center space-x-3">
           <BiSolidGrid className="w-11 h-11 p-2 fill-black bg-gray-200 rounded-full" />
           <FaFacebookMessenger className="w-11 h-11 fill-black p-2 bg-gray-200 rounded-full" />
@@ -68,13 +62,6 @@ export default function NavBar({
               className="w-11 h-11 object-cover rounded-full"
             />
           }
-          <button
-            onClick={async () =>
-              await signOut({ callbackUrl: "/login", redirect: true })
-            }
-          >
-            SignOut
-          </button>
         </div>
       </div>
     </nav>
