@@ -2,9 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { BiSolidGrid } from "react-icons/bi";
-import { FaFacebookMessenger } from "react-icons/fa6";
-import { IoNotificationsSharp } from "react-icons/io5";
 
 import { LoggedInUser } from "./types";
 import { data } from "./data";
@@ -24,7 +21,7 @@ export default function NavBar({
               width={0}
               height={0}
               sizes="100vh"
-              className="w-10 h-10 object-center rounded-full "
+              className="w-9 h-9 object-center rounded-full "
             />
           </Link>
           <input
@@ -48,9 +45,37 @@ export default function NavBar({
           </div>
         ))}
         <div className="flex items-center space-x-3">
-          <BiSolidGrid className="w-11 h-11 p-2 fill-black bg-gray-200 rounded-full" />
-          <FaFacebookMessenger className="w-11 h-11 fill-black p-2 bg-gray-200 rounded-full" />
-          <IoNotificationsSharp className="w-11 h-11 fill-black p-2 bg-gray-200 rounded-full" />
+          <div className=" bg-gray-100  w-11 h-11 p-1.5 rounded-full flex items-center justify-center">
+            <Image
+              alt="Amanuel Ferede"
+              src={"/navbar/grid.png"}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-5 h-5  "
+            />
+          </div>
+
+          <div className=" bg-gray-100  w-11 h-11 p-1.5 rounded-full flex items-center justify-center">
+            <Image
+              alt="Amanuel Ferede"
+              src={"/navbar/social.png"}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-11 h-11 object-cover "
+            />
+          </div>
+          <div className=" bg-gray-100  w-11 h-11 p-1.5 rounded-full flex items-center justify-center">
+            <Image
+              alt="Amanuel Ferede"
+              src={"/navbar/bell.png"}
+              width={0}
+              height={0}
+              sizes="100vh"
+              className="w-7 h-7 object-cover "
+            />
+          </div>
 
           {
             <Image

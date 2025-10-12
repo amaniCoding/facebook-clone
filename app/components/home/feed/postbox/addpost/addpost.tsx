@@ -3,13 +3,11 @@ import Image from "next/image";
 
 import { useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
-import {
-  setPostOption,
-  showPostBox,
-} from "@/app/store/slices/user/post/postSlice";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { LoggedInUser, postOption } from "./types";
+import { LoggedInUser } from "./types";
 import PostModal from "../postmodal/postmodal";
+import { showAddPostModal } from "@/app/store/slices/feed";
 
 export default function AddPost({
   loggedInUser: { profilePicture },
@@ -18,16 +16,16 @@ export default function AddPost({
 }) {
   const [showPostModal, setShowPostModal] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const post = useAppSelector((state) => state.userPost.post);
-  const handelShowPostBox = (postOption: postOption) => {
-    dispatch(setPostOption(postOption));
+  const post = useAppSelector((state) => state.feed.addPost.post);
+
+  const handelShowPostBox = () => {
     setShowPostModal(true);
-    dispatch(showPostBox(true));
+    dispatch(showAddPostModal(true));
   };
 
   const handelHidePostBox = () => {
     setShowPostModal(false);
-    dispatch(showPostBox(false));
+    dispatch(showAddPostModal(false));
   };
 
   return (
@@ -52,7 +50,7 @@ export default function AddPost({
             value={post}
             onChange={() => {}}
             onFocus={() => {
-              handelShowPostBox("textonly");
+              handelShowPostBox();
             }}
           ></input>
         </div>
@@ -72,7 +70,7 @@ export default function AddPost({
           <button
             className="rounded-md hover:bg-gray-100 px-3 flex items-center space-x-2 py-2"
             onClick={() => {
-              handelShowPostBox("textwithphoto");
+              handelShowPostBox();
             }}
           >
             <Image

@@ -1,11 +1,11 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { StorySliderProps } from "../storyslider/types";
+import { StorySliderProps } from "./types";
 
 export default function StorySliderItem(props: StorySliderProps) {
   return (
-    <div className="group overflow-hidden rounded-xl">
+    <div className="group overflow-hidden rounded-xl h-55 bg-red-300">
       <Link href={`/story/${props.storyid}`}>
         <div className="relative">
           <Image

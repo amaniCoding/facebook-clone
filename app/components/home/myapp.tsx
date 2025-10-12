@@ -8,10 +8,10 @@ export default function MyApp({
   children: React.ReactNode;
 }>) {
   const isPostBoxOpened = useAppSelector(
-    (state) => state.userPost.isPostBoxShown
+    (state) => state.feed.addPost.toShowAddPostModal
   );
   const isCommentBoxOpened = useAppSelector(
-    (state) => state.userComment.isCommentBoxShown
+    (state) => state.feed.currentPostAction.toShowCommentModal
   );
   useEffect(() => {
     if (isPostBoxOpened || isCommentBoxOpened) {

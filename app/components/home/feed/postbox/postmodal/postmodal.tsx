@@ -3,7 +3,6 @@ import { FaLock, FaXmark } from "react-icons/fa6";
 import Image from "next/image";
 import { BsEmojiAstonished } from "react-icons/bs";
 
-import { setPost, setPostOption } from "@/app/store/slices/user/post/postSlice";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 
@@ -11,13 +10,15 @@ import { createPost } from "@/app/actions/user";
 
 import UploadedMedias from "../uploadedmedias/uploadedmedias";
 import { useFormStatus } from "react-dom";
+import { useSession } from "next-auth/react";
+import { setPost } from "@/app/store/slices/feed";
 
 // import { createPost, State } from "@/app/libs/actions"
 export default function PostModal(props: { onClose: () => void }) {
   const dispatch = useAppDispatch();
+  const { data, status } = useSession();
 
-  const post = useAppSelector((state) => state.userPost.post);
-  const postOption = useAppSelector((state) => state.userPost.postOption);
+  const post = useAppSelector((state) => state.feed.addPost.post);
 
   const [uploadedMedias, setUploadedMedias] = useState<string[]>([]);
 
@@ -42,7 +43,6 @@ export default function PostModal(props: { onClose: () => void }) {
             fr.onloadend = () => {
               uploadedMedias.push(fr.result as string);
               setUploadedMedias(uploadedMedias);
-              dispatch(setPostOption("showphoto"));
             };
             try {
               fr.readAsDataURL(file);
@@ -63,26 +63,13 @@ export default function PostModal(props: { onClose: () => void }) {
     dispatch(setPost(e.target.value));
   };
 
-  const getClassName = () => {
-    if (postOption === "textonly") {
-      return {
-        marginTop: `${6}rem`,
-      };
-    } else {
-      return {
-        marginTop: "3.5rem",
-      };
-    }
-  };
-
   useEffect(() => {
     if (pending) {
       props.onClose();
-      dispatch(setPostOption(postOption));
       setUploadedMedias([]);
       dispatch(setPost(""));
     }
-  }, [dispatch, pending, postOption, props]);
+  }, [dispatch, pending, props]);
 
   return (
     <>
@@ -90,7 +77,6 @@ export default function PostModal(props: { onClose: () => void }) {
         <div
           className={`max-w-[517px] mx-auto relative  shadow-2xl rounded-xl bg-white 
             `}
-          style={getClassName()}
         >
           {pending && (
             <div className="absolute bg-gray-100 opacity-60 z-10 top-0 bottom-0 left-0 right-0 flex items-center justify-center">
@@ -104,7 +90,6 @@ export default function PostModal(props: { onClose: () => void }) {
             <FaXmark
               className="w-10 h-10 p-2 hover:bg-gray-50 bg-gray-100 rounded-full cursor-pointer"
               onClick={() => {
-                dispatch(setPostOption(postOption));
                 dispatch(setPost(post));
                 props.onClose();
               }}
@@ -112,38 +97,36 @@ export default function PostModal(props: { onClose: () => void }) {
           </div>
           <form className="p-3 flex flex-col w-full" action={createPost}>
             <div className="flex space-x-3">
-              <Image
-                alt="Amanuel Ferede"
-                src={"/users/1.jpg"}
-                width={0}
-                height={0}
-                sizes="100vh"
-                className="w-8 h-8 object-cover rounded-full border-2 border-blue-700"
-              />
+              {status === "loading" ? null : data?.user.profilePicture ? (
+                <Image
+                  alt="Amanuel Ferede"
+                  src={data?.user.profilePicture}
+                  width={0}
+                  height={0}
+                  sizes="100vh"
+                  className="w-10 h-10 object-cover rounded-full"
+                />
+              ) : null}
 
-              <div className="flex flex-col pb-3 space-y-1">
+              <div className="flex flex-col pb-3 space-y">
                 <p>Amanuel Ferede</p>
-                <button className="py-[0.4px] rounded-lg bg-gray-200 flex items-center justify-center space-x-1">
+                <button className="py-[0.4px] rounded-md bg-gray-200 flex items-center justify-center space-x-1">
                   <FaLock className="w-3 h-3" />
-                  <span>Only me</span>
+                  <span className="text-sm">Only me</span>
                 </button>
               </div>
             </div>
 
-            <div
-              className={`${
-                postOption === "textonly" ? "max-h-[15rem]" : "max-h-[18rem]"
-              } overflow-y-auto`}
-            >
-              {postOption === "showphoto" && (
-                <UploadedMedias medias={uploadedMedias} />
-              )}
+            <div className={`overflow-y-auto`}>
+              {uploadedMedias && <UploadedMedias medias={uploadedMedias} />}
 
               <textarea
                 ref={textAreaForText}
                 placeholder="What's in your mind, Amanuel"
                 className={`pb-20 placeholder:text-gray-500 auto text-wrap resize-none
-                outline-none pl-3 block field-sizing-content border-none outline-0 w-full overflow-y-auto`}
+                outline-none pl-3 block field-sizing-content border-none outline-0 w-full overflow-y-auto ${
+                  uploadedMedias ? "hidden" : "block"
+                }`}
                 value={post}
                 onChange={onChangePost}
                 name="post"
@@ -151,20 +134,12 @@ export default function PostModal(props: { onClose: () => void }) {
 
               <div className={` flex items-center justify-between my-2 px-3 `}>
                 <div
-                  className={`w-8 h-8 bg-gradient-to-bl rounded-lg  from-yellow-400 to-green-500 ${
-                    postOption === "textonly" && post.length >= 100
-                      ? "visible"
-                      : "invisible"
-                  }`}
+                  className={`w-8 h-8 bg-gradient-to-bl rounded-lg  from-yellow-400 to-green-500`}
                 ></div>
                 <BsEmojiAstonished className="w-7 h-7 fill-gray-600 " />
               </div>
 
-              <div
-                className={`${
-                  postOption === "textwithphoto" ? "block" : "hidden"
-                }`}
-              >
+              <div className={``}>
                 <input
                   ref={input}
                   name="photos"
