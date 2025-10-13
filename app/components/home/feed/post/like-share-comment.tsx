@@ -42,47 +42,47 @@ export default function LikeShareComment() {
         <ReactionBox keepShowing={keepShowing} hideShowing={hideShowing} />
       )}
       <div
-        className="flex items-center justify-center grow cursor-pointer hover:bg-gray-100"
+        className="flex items-center justify-center rounded-md grow cursor-pointer hover:bg-gray-100"
         onMouseEnter={showReactionBox}
         onMouseLeave={hideReactionBox}
       >
-        <div className="flex items-center px-3 py-2 space-x-1 ">
+        <div className="flex items-center px-3 py-1.5 space-x-1 ">
           <Image
             alt=""
             src={"/post/like.png"}
             width={0}
             height={0}
             sizes="100vh"
-            className=" w-7 h-7 object-cover rounded-full block flex-none"
+            className=" w-5 h-5 rounded-full block flex-none"
           />
           <p>Like</p>
         </div>
       </div>
       <div
-        className="flex items-center justify-center grow cursor-pointer hover:bg-gray-100"
+        className="flex items-center justify-center rounded-md grow cursor-pointer hover:bg-gray-100"
         onClick={_showCommentModal}
       >
-        <div className="flex items-center px-3 py-2 space-x-1 ">
+        <div className="flex items-center px-3 py-1.5 space-x-1 ">
           <Image
             alt=""
             src={"/post/comment.png"}
             width={0}
             height={0}
             sizes="100vh"
-            className=" w-7 h-7 object-cover rounded-full block flex-none"
+            className=" w-5 h-5 rounded-full block flex-none"
           />
           <p>Comment</p>
         </div>
       </div>
-      <div className="flex items-center justify-center grow cursor-pointer hover:bg-gray-100">
-        <div className="flex items-center px-3 py-2 space-x-1 ">
+      <div className="flex items-center justify-center rounded-md grow cursor-pointer hover:bg-gray-100">
+        <div className="flex items-center px-3 py-1.5 space-x-1 ">
           <Image
             alt=""
             src={"/post/share.png"}
             width={0}
             height={0}
             sizes="100vh"
-            className=" w-7 h-7 object-cover rounded-full block flex-none"
+            className=" w-5 h-5 rounded-full block flex-none"
           />
           <p>Share</p>
         </div>

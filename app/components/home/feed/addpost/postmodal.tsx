@@ -3,15 +3,17 @@ import { FaLock, FaXmark } from "react-icons/fa6";
 import Image from "next/image";
 import { BsEmojiAstonished } from "react-icons/bs";
 
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 
 import { createPost } from "@/app/actions/user";
 
-import UploadedMedias from "../uploadedmedias/uploadedmedias";
 import { useFormStatus } from "react-dom";
 import { useSession } from "next-auth/react";
-import { setPost } from "@/app/store/slices/feed";
+import { setPostToAdd, setUploadedMediasToAdd } from "@/app/store/slices/feed";
+import { PiPencilSimpleBold } from "react-icons/pi";
+import { GrGallery } from "react-icons/gr";
+import UploadedMedias from "./uploadedmedias";
 
 // import { createPost, State } from "@/app/libs/actions"
 export default function PostModal(props: { onClose: () => void }) {
@@ -19,8 +21,12 @@ export default function PostModal(props: { onClose: () => void }) {
   const { data, status } = useSession();
 
   const post = useAppSelector((state) => state.feed.addPost.post);
-
-  const [uploadedMedias, setUploadedMedias] = useState<string[]>([]);
+  const uploadedMedias = useAppSelector(
+    (state) => state.feed.addPost.upLoadedMedias
+  );
+  const hasChoosenPhoto = useAppSelector(
+    (state) => state.feed.addPost.hasChoosenPhoto
+  );
 
   const input = useRef<HTMLInputElement>(null);
 
@@ -32,7 +38,6 @@ export default function PostModal(props: { onClose: () => void }) {
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (window.FileReader) {
-      const uploadedMedias: string[] = [];
       const files = e.target.files;
 
       if (files) {
@@ -41,8 +46,12 @@ export default function PostModal(props: { onClose: () => void }) {
           if (file) {
             const fr = new FileReader();
             fr.onloadend = () => {
-              uploadedMedias.push(fr.result as string);
-              setUploadedMedias(uploadedMedias);
+              dispatch(
+                setUploadedMediasToAdd({
+                  type: "add",
+                  mediaUrl: fr.result as string,
+                })
+              );
             };
             try {
               fr.readAsDataURL(file);
@@ -59,23 +68,23 @@ export default function PostModal(props: { onClose: () => void }) {
   const onChangePost = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    dispatch(setPost(e.target.value));
-    dispatch(setPost(e.target.value));
+    dispatch(setPostToAdd(e.target.value));
+    dispatch(setPostToAdd(e.target.value));
   };
 
-  useEffect(() => {
-    if (pending) {
-      props.onClose();
-      setUploadedMedias([]);
-      dispatch(setPost(""));
-    }
-  }, [dispatch, pending, props]);
+  // useEffect(() => {
+  //   if (pending) {
+  //     props.onClose();
+  //     dispatch(setUploadedMediasToAdd([]))
+  //     dispatch(setPostToAdd(""));
+  //   }
+  // }, [dispatch, pending, props]);
 
   return (
     <>
       <section className="bg-gray-100/80 fixed top-0 bottom-0 left-0 right-0 z-20 overflow-hidden">
         <div
-          className={`max-w-[517px] mx-auto relative  shadow-2xl rounded-xl bg-white 
+          className={`max-w-[517px] mx-auto relative  shadow-2xl rounded-xl bg-white mt-15
             `}
         >
           {pending && (
@@ -90,7 +99,7 @@ export default function PostModal(props: { onClose: () => void }) {
             <FaXmark
               className="w-10 h-10 p-2 hover:bg-gray-50 bg-gray-100 rounded-full cursor-pointer"
               onClick={() => {
-                dispatch(setPost(post));
+                dispatch(setPostToAdd(post));
                 props.onClose();
               }}
             />
@@ -117,27 +126,69 @@ export default function PostModal(props: { onClose: () => void }) {
               </div>
             </div>
 
-            <div className={`overflow-y-auto`}>
-              {uploadedMedias && <UploadedMedias medias={uploadedMedias} />}
-
-              <textarea
-                ref={textAreaForText}
-                placeholder="What's in your mind, Amanuel"
-                className={`pb-20 placeholder:text-gray-500 auto text-wrap resize-none
-                outline-none pl-3 block field-sizing-content border-none outline-0 w-full overflow-y-auto ${
-                  uploadedMedias ? "hidden" : "block"
+            <div className={`overflow-y-auto max-h-64  mb-4`}>
+              <div className="textarea relative mb-4">
+                <textarea
+                  ref={textAreaForText}
+                  placeholder="What's in your mind, Amanuel"
+                  className={`${
+                    uploadedMedias.length > 0
+                      ? "placeholder:text-sm"
+                      : "placeholder:text-xl"
+                  } placeholder:text-gray-500 auto text-wrap resize-none
+                outline-none  block field-sizing-content border-none outline-0 w-full overflow-y-auto ${
+                  uploadedMedias.length === 0 ? "pb-20" : "pb-0"
                 }`}
-                value={post}
-                onChange={onChangePost}
-                name="post"
-              ></textarea>
-
-              <div className={` flex items-center justify-between my-2 px-3 `}>
-                <div
-                  className={`w-8 h-8 bg-gradient-to-bl rounded-lg  from-yellow-400 to-green-500`}
-                ></div>
-                <BsEmojiAstonished className="w-7 h-7 fill-gray-600 " />
+                  value={post}
+                  onChange={onChangePost}
+                  name="post"
+                ></textarea>
+                <BsEmojiAstonished className="w-6 h-6 fill-gray-600 absolute z-10 top-0 right-1 bottom-0" />
               </div>
+              {uploadedMedias.length > 0 && (
+                <div className="uploadedmedias relative w-full">
+                  <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-10% to-50% from-black/25 to-black/5"></div>
+                  <UploadedMedias medias={uploadedMedias} />
+                  <div className="flex items-center justify-between absolute z-20 top-4 left-4 right-4">
+                    <div className="flex items-center space-x-3">
+                      <button className=" py-1.5 px-2.5 rounded-md flex items-center space-x-1 justify-center bg-white cursor-pointer">
+                        <PiPencilSimpleBold className="w-5 h-5" />
+                        <p className="font-semibold text-sm">Edit All</p>
+                      </button>
+
+                      <button className=" py-1.5 px-2.5 rounded-md flex items-center space-x-1 justify-center bg-white cursor-pointer">
+                        <GrGallery className="w-5 h-5" />
+                        <p
+                          className="font-semibold text-sm cursor-pointer"
+                          onClick={showDialog}
+                        >
+                          Add photos/videos
+                        </p>
+                      </button>
+                    </div>
+                    <FaXmark
+                      className="w-8 h-8 bg-gray-50 rounded-full p-1.5 cursor-pointer"
+                      onClick={() => {
+                        dispatch(
+                          setUploadedMediasToAdd({
+                            type: "empty",
+                          })
+                        );
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+              {uploadedMedias.length === 0 && (
+                <div
+                  className={` flex items-center justify-between my-2 px-3 `}
+                >
+                  <div
+                    className={`w-8 h-8 bg-gradient-to-bl rounded-lg  from-yellow-400 to-green-500`}
+                  ></div>
+                  <BsEmojiAstonished className="w-7 h-7 fill-gray-600 " />
+                </div>
+              )}
 
               <div className={``}>
                 <input

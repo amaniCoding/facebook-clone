@@ -10,7 +10,7 @@ export default function ReactionBox({
 }) {
   return (
     <div
-      className="absolute left-0 bottom-12 z-[100] flex items-center py-2 px-2 bg-white shadow-lg space-x-1 rounded-2xl"
+      className="absolute left-0 bottom-12 z-[100] flex items-center p-1.5 bg-white shadow-lg space-x-1 rounded-4xl"
       onMouseEnter={keepShowing}
       onMouseLeave={hideShowing}
     >
@@ -20,7 +20,7 @@ export default function ReactionBox({
         width={0}
         height={0}
         sizes="100vh"
-        className="cursor-pointer w-14 h-14 object-cover rounded-full block flex-none"
+        className="cursor-pointer w-12 h-12 object-cover rounded-full block flex-none"
       />
       <Image
         alt=""
@@ -28,7 +28,7 @@ export default function ReactionBox({
         width={0}
         height={0}
         sizes="100vh"
-        className="cursor-pointer w-14 h-14 object-cover rounded-full block flex-none"
+        className="cursor-pointer w-12 h-12 object-cover rounded-full block flex-none"
       />
       <Image
         alt=""
@@ -36,7 +36,7 @@ export default function ReactionBox({
         width={0}
         height={0}
         sizes="100vh"
-        className="cursor-pointer w-14 h-14 object-cover rounded-full block flex-none"
+        className="cursor-pointer w-12 h-12 object-cover rounded-full block flex-none"
       />
       <Image
         alt=""
@@ -44,7 +44,7 @@ export default function ReactionBox({
         width={0}
         height={0}
         sizes="100vh"
-        className="cursor-pointer w-14 h-14 object-cover rounded-full block flex-none"
+        className="cursor-pointer w-12 h-12 object-cover rounded-full block flex-none"
       />
       <Image
         alt=""
@@ -52,7 +52,7 @@ export default function ReactionBox({
         width={0}
         height={0}
         sizes="100vh"
-        className="cursor-pointer w-14 h-14 object-cover rounded-full block flex-none"
+        className="cursor-pointer w-12 h-12 object-cover rounded-full block flex-none"
       />
       <Image
         alt=""
@@ -60,7 +60,7 @@ export default function ReactionBox({
         width={0}
         height={0}
         sizes="100vh"
-        className="cursor-pointer w-14 h-14 object-cover rounded-full block flex-none"
+        className="cursor-pointer w-12 h-12 object-cover rounded-full block flex-none"
       />
       <Image
         alt=""
@@ -68,7 +68,7 @@ export default function ReactionBox({
         width={0}
         height={0}
         sizes="100vh"
-        className="cursor-pointer w-14 h-14 object-cover rounded-full block flex-none"
+        className="cursor-pointer w-12 h-12 object-cover rounded-full block flex-none"
       />
     </div>
   );

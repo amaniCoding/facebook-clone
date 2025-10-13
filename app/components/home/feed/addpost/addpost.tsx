@@ -5,9 +5,10 @@ import { useState } from "react";
 import { FaRegSmile } from "react-icons/fa";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { LoggedInUser } from "./types";
-import PostModal from "../postmodal/postmodal";
+
 import { showAddPostModal } from "@/app/store/slices/feed";
+import PostModal from "./postmodal";
+import { LoggedInUser } from "./types";
 
 export default function AddPost({
   loggedInUser: { profilePicture },

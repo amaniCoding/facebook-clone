@@ -3,7 +3,7 @@ import Contacts from "./components/home/contacts";
 import NavBar from "./components/home/navbar";
 import SideBar from "./components/home/sidebar";
 import { auth } from "@/app/libs/auth/auth";
-import AddPost from "./components/home/feed/postbox/addpost/addpost";
+import AddPost from "./components/home/feed/addpost/addpost";
 import Feeder from "./components/home/feed/feeder/feeder";
 import { Suspense } from "react";
 import Story from "./components/skeletons/story";

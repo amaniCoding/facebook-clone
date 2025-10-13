@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { SetUploadedMediasToAdd } from "../types";
 
 // Define a type for the slice state
 interface FeedState {
@@ -8,6 +9,8 @@ interface FeedState {
   addPost: {
     toShowAddPostModal: boolean;
     post: string;
+    hasChoosenPhoto: boolean;
+    upLoadedMedias: string[];
   };
 }
 
@@ -19,6 +22,8 @@ const initialState: FeedState = {
   addPost: {
     toShowAddPostModal: false,
     post: "",
+    hasChoosenPhoto: false,
+    upLoadedMedias: [],
   },
 };
 
@@ -33,13 +38,44 @@ export const feedSlice = createSlice({
       state.addPost.toShowAddPostModal = action.payload;
     },
 
-    setPost: (state, action: PayloadAction<string>) => {
+    setPostToAdd: (state, action: PayloadAction<string>) => {
       state.addPost.post = action.payload;
+    },
+
+    setUploadedMediasToAdd: (
+      state,
+      action: PayloadAction<SetUploadedMediasToAdd>
+    ) => {
+      switch (action.payload.type) {
+        case "add":
+          state.addPost.upLoadedMedias.push(action.payload.mediaUrl!);
+          break;
+        case "delete":
+          const media = state.addPost.upLoadedMedias.find(
+            (media) => media === action.payload.mediaToFilter
+          );
+          if (media) {
+            state.addPost.upLoadedMedias = state.addPost.upLoadedMedias.filter(
+              (media) => media !== media
+            );
+          }
+          break;
+
+        case "empty":
+          state.addPost.upLoadedMedias = [];
+
+        default:
+          break;
+      }
     },
   },
 });
 
-export const { showCommentModal, showAddPostModal, setPost } =
-  feedSlice.actions;
+export const {
+  showCommentModal,
+  showAddPostModal,
+  setPostToAdd,
+  setUploadedMediasToAdd,
+} = feedSlice.actions;
 
 export default feedSlice.reducer;
