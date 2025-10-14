@@ -49,7 +49,10 @@ export default function PostModal(props: { onClose: () => void }) {
               dispatch(
                 setUploadedMediasToAdd({
                   type: "add",
-                  mediaUrl: fr.result as string,
+                  media: {
+                    type: "image",
+                    url: fr.result as string,
+                  },
                 })
               );
             };
@@ -148,7 +151,10 @@ export default function PostModal(props: { onClose: () => void }) {
               {uploadedMedias.length > 0 && (
                 <div className="uploadedmedias relative w-full">
                   <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-10% to-50% from-black/25 to-black/5"></div>
-                  <UploadedMedias medias={uploadedMedias} />
+                  <UploadedMedias
+                    uploadedMedias={uploadedMedias}
+                    type="upload"
+                  />
                   <div className="flex items-center justify-between absolute z-20 top-4 left-4 right-4">
                     <div className="flex items-center space-x-3">
                       <button className=" py-1.5 px-2.5 rounded-md flex items-center space-x-1 justify-center bg-white cursor-pointer">

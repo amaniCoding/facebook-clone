@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SetUploadedMediasToAdd } from "../types";
 
+interface UploadedMediaType {
+  url: string;
+  type: string;
+}
 // Define a type for the slice state
 interface FeedState {
   currentPostAction: {
@@ -10,7 +14,7 @@ interface FeedState {
     toShowAddPostModal: boolean;
     post: string;
     hasChoosenPhoto: boolean;
-    upLoadedMedias: string[];
+    upLoadedMedias: UploadedMediaType[];
   };
 }
 
@@ -48,11 +52,11 @@ export const feedSlice = createSlice({
     ) => {
       switch (action.payload.type) {
         case "add":
-          state.addPost.upLoadedMedias.push(action.payload.mediaUrl!);
+          state.addPost.upLoadedMedias.push(action.payload.media!);
           break;
         case "delete":
           const media = state.addPost.upLoadedMedias.find(
-            (media) => media === action.payload.mediaToFilter
+            (media) => media.url === action.payload.media?.url
           );
           if (media) {
             state.addPost.upLoadedMedias = state.addPost.upLoadedMedias.filter(

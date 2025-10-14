@@ -1,6 +1,6 @@
 import prisma from "@/app/libs/prisma";
 import { randomTexts, users } from "../dummy";
-import { Gender } from "@/generated/prisma";
+import { Gender, MediaType } from "@/generated/prisma";
 
 const userPostOption = ["contentonly", "mediasonly", "both"];
 type UserPostOption = "contentonly" | "mediasonly" | "both";
@@ -19,12 +19,12 @@ function generatePhoto(photoCount: number) {
 
     return {
       url: `/users/${randomPhoto}.jpg`,
-      type: "image",
+      type: "image" as MediaType,
     };
   });
 }
 export function UserPostSeeder() {
-  return Array.from({ length: 10 }, async () => {
+  return Array.from({ length: 2 }, async () => {
     const user = await getRandomUser();
     const randomPostOptionIndex = Math.floor(Math.random() * 3);
     const randomPostOption: UserPostOption = userPostOption[

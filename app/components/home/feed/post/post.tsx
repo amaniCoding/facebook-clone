@@ -2,13 +2,18 @@
 import Header from "./header";
 import Content from "./content";
 import Footer from "./footer";
-export default function Post() {
+import { PostsUser } from "../types";
+export default function Post({ post }: { post: PostsUser }) {
   return (
     <>
       <div className="rounded-xl bg-white">
-        <Header />
+        <Header
+          firstName={post.user.firstName}
+          lastName={post.user.lastName}
+          date={post.createdAt.toString()}
+        />
 
-        <Content />
+        <Content content={post.content} medias={post.medias} />
         <Footer />
       </div>
     </>
