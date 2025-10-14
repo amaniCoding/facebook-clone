@@ -51,6 +51,9 @@ enum ShareType {
   userpost
   grouppost
   pagepost
+  userpostmedia
+  grouppostmedia
+  pagepostmedia
 }
 
 enum ReactionType {
