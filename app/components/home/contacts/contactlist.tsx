@@ -1,4 +1,4 @@
-import { users } from "@/app/seed/user";
+import { users } from "@/app/seed/dummy";
 import Image from "next/image";
 export default async function ContactList() {
   return (
