@@ -1,45 +1,26 @@
 "use client";
 import Image from "next/image";
-import { UploadedMediasTypes } from "../../addpost/types";
+import { UploadedMediasTypes } from "./types";
 
-export default function Grid2({
-  medias,
-  type,
-  uploadedMedias,
-}: UploadedMediasTypes) {
+export default function Grid2({ medias }: UploadedMediasTypes) {
   return (
-    <div className="flex space-x-2 w-full">
-      {type === "media" &&
-        medias!.map((media, index) => (
-          <div key={index} className="w-1/2 h-64">
-            {media.type === "image" && (
-              <Image
-                alt="Amanuel Ferede"
-                src={media.url}
-                width={0}
-                height={0}
-                sizes="100vh"
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
-        ))}
-
-      {type === "upload" &&
-        uploadedMedias!.map((media, index) => (
-          <div key={index} className="w-1/2 h-64">
-            {media.type === "image" && (
-              <Image
-                alt="Amanuel Ferede"
-                src={media.url}
-                width={0}
-                height={0}
-                sizes="100vh"
-                className="w-full h-full object-cover"
-              />
-            )}
-          </div>
-        ))}
+    <div className="w-full h-[28rem]">
+      {medias!.map((media, index) => {
+        return (
+          media.type === "image" && (
+            <div
+              key={index}
+              className="w-1/2 h-full"
+              style={{
+                backgroundImage: "url(" + `${media.url}` + ")",
+                backgroundPosition: "top center",
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
+            ></div>
+          )
+        );
+      })}
     </div>
   );
 }

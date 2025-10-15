@@ -16,12 +16,18 @@ interface FeedState {
     hasChoosenPhoto: boolean;
     upLoadedMedias: UploadedMediaType[];
   };
-  netWorkError: string;
+  network: {
+    isOnline: boolean;
+    status: string;
+  };
 }
 
 // Define the initial state using that type
 const initialState: FeedState = {
-  netWorkError: "",
+  network: {
+    isOnline: false,
+    status: "",
+  },
   currentPostAction: {
     toShowCommentModal: false,
   },
@@ -48,8 +54,11 @@ export const feedSlice = createSlice({
       state.addPost.post = action.payload;
     },
 
-    setNetWorkError: (state, action: PayloadAction<string>) => {
-      state.netWorkError = action.payload;
+    setNetWorkError: (
+      state,
+      action: PayloadAction<{ isOnline: boolean; status: string }>
+    ) => {
+      state.network = action.payload;
     },
     setUploadedMediasToAdd: (
       state,

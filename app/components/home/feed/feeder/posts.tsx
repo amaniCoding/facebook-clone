@@ -32,10 +32,20 @@ export default function Posts() {
       }
     };
     if (isOnLine) {
-      dispatch(setNetWorkError("Your connection is restored"));
+      dispatch(
+        setNetWorkError({
+          isOnline: true,
+          status: "Your internet connection was restored",
+        })
+      );
       getFeeds();
     } else {
-      dispatch(setNetWorkError("You are offline"));
+      dispatch(
+        setNetWorkError({
+          isOnline: true,
+          status: "You are currently offline",
+        })
+      );
     }
     window.addEventListener("online", () => {
       setIsOnLine(true);
@@ -52,7 +62,7 @@ export default function Posts() {
         setIsOnLine(false);
       });
     };
-  }, [isOnLine]);
+  }, [dispatch, isOnLine]);
 
   return (
     <>

@@ -1,6 +1,9 @@
 "use client";
+import Image from "next/image";
 import { useAppSelector } from "@/app/store/hooks";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { FaXmark } from "react-icons/fa6";
 
 export default function MyApp({
   children,
@@ -14,8 +17,12 @@ export default function MyApp({
     (state) => state.feed.currentPostAction.toShowCommentModal
   );
 
-  const netWorkError = useAppSelector((state) => state.feed.netWorkError);
+  const { isOnline, status } = useAppSelector((state) => state.feed.network);
 
+  const [showNetWorkError, setshowNetWorkError] = useState<boolean>(false);
+  const timeOutId = useRef<string | number | NodeJS.Timeout | undefined>(
+    undefined
+  );
   useEffect(() => {
     if (isPostBoxOpened || isCommentBoxOpened) {
       document.body.style.overflowY = "hidden";
@@ -23,13 +30,61 @@ export default function MyApp({
       document.body.style.overflowY = "auto";
     }
   }, [isCommentBoxOpened, isPostBoxOpened]);
+
+  const closeNotification = () => {
+    clearTimeout(timeOutId.current);
+    setshowNetWorkError(false);
+  };
+
+  useEffect(() => {
+    setshowNetWorkError(true);
+    const id = setTimeout(() => {
+      setshowNetWorkError(false);
+    }, 6000);
+
+    timeOutId.current = id;
+
+    return () => {
+      clearInterval(id);
+    };
+  }, [isOnline]);
   return (
     <>
-      {netWorkError ? (
-        <div className="fixed bottom-3 left-3 px-3 py-2 bg-slate-800 rounded-lg text-center text-white">
-          {netWorkError}
+      {showNetWorkError && isOnline && status && (
+        <div className="fixed bottom-3 left-3 px-3.5 py-4 bg-slate-800 rounded-lg text-center text-white flex items-center space-x-2">
+          <Image
+            alt="Amanuel Ferede"
+            src={"/net/wireless.png"}
+            width={0}
+            height={0}
+            sizes="100vh"
+            className="w-4 h-4 object-cover"
+          />
+          <p>{status}</p>
+          <Link href={`/`}>Refresh</Link>
         </div>
-      ) : null}
+      )}
+
+      {showNetWorkError && !isOnline && status && (
+        <div className="fixed bottom-3 left-3 px-3.5 py-4 bg-slate-800 rounded-lg text-center text-white flex items-center space-x-2">
+          <Image
+            alt="Amanuel Ferede"
+            src={"/net/wifi-slash.png"}
+            width={0}
+            height={0}
+            sizes="100vh"
+            className="w-4 h-4 object-cover"
+          />
+          <p>{status}</p>
+          <Link href={`/`} className="hover:underline hover:text-blue-600">
+            Refresh
+          </Link>
+          <FaXmark
+            className="w-4 h-4 bg-gray-600 text-white"
+            onClick={closeNotification}
+          />
+        </div>
+      )}
       {children}
     </>
   );

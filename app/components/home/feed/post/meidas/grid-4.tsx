@@ -22,7 +22,7 @@ export default function Grid2({ medias }: UploadedMediasTypes) {
           );
         })}
       </div>
-      <div className="flex space-x-1.5 mt-2 w-full h-1/2">
+      <div className="flex space-x-1.5 mt-1.5 w-full h-1/2">
         {medias!.slice(2, 5).map((media, index) => {
           return (
             media.type === "image" && (
