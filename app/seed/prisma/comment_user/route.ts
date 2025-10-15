@@ -1,15 +1,12 @@
-import { UserPostSeeder, UserSeeder } from "./data";
+import { _seed } from "./libs";
 
-const seedUserPost = async () => {
-  await Promise.all(UserPostSeeder());
+const seed = async () => {
+  await Promise.all(_seed());
 };
 
-const seedUser = async () => {
-  await Promise.all(UserSeeder());
-};
 export async function GET() {
   try {
-    await seedUserPost();
+    await seed();
     //await seedUser();
     return Response.json({ message: "Database seeded successfully" });
   } catch (error) {

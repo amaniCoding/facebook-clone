@@ -1,17 +1,19 @@
 import prisma from "@/app/libs/prisma";
-import { randomTexts, users } from "../dummy";
-import { Gender, MediaType } from "@/generated/prisma";
+import { MediaType, User } from "@/generated/prisma";
+import { randomTexts } from "../../dummy";
 
 const userPostOption = ["contentonly", "mediasonly", "both"];
 type UserPostOption = "contentonly" | "mediasonly" | "both";
+let randomUser: User;
 
 async function getRandomUser() {
   const users = await prisma.user.findMany({});
   const randomUserIndex = Math.floor(Math.random() * users.length);
 
-  const randomUser = users[randomUserIndex];
-  return randomUser;
+  randomUser = users[randomUserIndex];
 }
+
+await getRandomUser();
 
 function generatePhoto(photoCount: number) {
   return Array.from({ length: photoCount }, () => {
@@ -23,9 +25,9 @@ function generatePhoto(photoCount: number) {
     };
   });
 }
-export function UserPostSeeder() {
-  return Array.from({ length: 2 }, async () => {
-    const user = await getRandomUser();
+
+export function _seed() {
+  return Array.from({ length: 10 }, () => {
     const randomPostOptionIndex = Math.floor(Math.random() * 3);
     const randomPostOption: UserPostOption = userPostOption[
       randomPostOptionIndex
@@ -38,12 +40,12 @@ export function UserPostSeeder() {
     return prisma.post_USER.create({
       data: {
         user: {
-          connect: { id: user.id },
+          connect: { id: randomUser.id },
         },
         content:
           randomPostOption === "contentonly" || randomPostOption === "both"
             ? content
-            : undefined,
+            : null,
         medias:
           randomPostOption === "both" || randomPostOption === "mediasonly"
             ? {
@@ -52,21 +54,6 @@ export function UserPostSeeder() {
                 },
               }
             : undefined,
-      },
-    });
-  });
-}
-
-export function UserSeeder() {
-  return users.map((user) => {
-    return prisma.user.create({
-      data: {
-        firstName: user.fname,
-        lastName: user.lname,
-        birthDate: user.birthDay,
-        gender: user.gender as Gender,
-        email: user.mobileOrPhoneNumber,
-        password: user.password,
       },
     });
   });

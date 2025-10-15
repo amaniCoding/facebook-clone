@@ -720,8 +720,8 @@ model Comment_USER {
   userId    String
   user      User                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   post      Post_USER               @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediaUrl  String
-  content   String
+  mediaUrl  String?
+  content   String?
   replies   Reply_USER[]
   reactions CommentReactions_USER[]
   createdAt DateTime                @default(now())
@@ -734,8 +734,8 @@ model Comment_PAGE {
   userId    String
   user      User                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   post      Post_PAGE               @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediaUrl  String
-  content   String
+  mediaUrl  String?
+  content   String?
   replies   Reply_PAGE[]
   reactions CommentReactions_PAGE[]
   createdAt DateTime                @default(now())
@@ -748,8 +748,8 @@ model Comment_GROUP {
   userId    String
   user      User                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   post      Post_GROUP               @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediaUrl  String
-  content   String
+  mediaUrl  String?
+  content   String?
   replies   Reply_GROUP[]
   reactions CommentReactions_GROUP[]
   createdAt DateTime                 @default(now())
@@ -762,8 +762,8 @@ model Comment_USERSHARE {
   userId    String
   user      User                         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   post      Post_USERSHARE               @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediaUrl  String
-  content   String
+  mediaUrl  String?
+  content   String?
   replies   Reply_USERSHARE[]
   reactions CommentReactions_USERSHARE[]
   createdAt DateTime                     @default(now())
@@ -776,8 +776,8 @@ model Comment_PAGESHARE {
   userId    String
   user      User                         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   post      Post_PAGESHARE               @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediaUrl  String
-  content   String
+  mediaUrl  String?
+  content   String?
   replies   Reply_PAGESHARE[]
   reactions CommentReactions_PAGESHARE[]
   createdAt DateTime                     @default(now())
@@ -790,8 +790,8 @@ model Comment_USERSHARE_TOGROUP {
   userId    String
   user      User                                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   post      Post_USERSHARE_TOGROUP              @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediaUrl  String
-  content   String
+  mediaUrl  String?
+  content   String?
   replies   Reply_USERSHARE_TOGROUP[]
   reactions CommentReaction_USERSHARE_TOGROUP[]
   createdAt DateTime                            @default(now())
@@ -804,8 +804,8 @@ model Comment_PAGESHARE_TOGROUP {
   userId    String
   user      User                                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   post      Post_PAGESHARE_TOGROUP              @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  mediaUrl  String
-  content   String
+  mediaUrl  String?
+  content   String?
   replies   Reply_PAGESHARE_TOGROUP[]
   reactions CommentReaction_PAGESHARE_TOGROUP[]
   createdAt DateTime                            @default(now())
