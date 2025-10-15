@@ -2,25 +2,66 @@
 import { useEffect, useState } from "react";
 import Post from "../post/post";
 
-import { string } from "zod";
 import { PostsUser } from "../types";
+import CommentModal from "../commentmodal.tsx/comment-modal";
+import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import FeedItemSkeleton from "@/app/components/skeletons/feed";
+import { setNetWorkError } from "@/app/store/slices/feed";
 
 export default function Posts() {
+  const isCommentModalShown = useAppSelector(
+    (state) => state.feed.currentPostAction.toShowCommentModal
+  );
+  const dispatch = useAppDispatch();
   const [posts_user, setPosts_user] = useState<PostsUser[]>();
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [isOnLine, setIsOnLine] = useState<boolean>(navigator.onLine);
 
   useEffect(() => {
     const getFeeds = async () => {
-      const response = await fetch("/feeder");
-      const data = await response.json();
-      setPosts_user(data.posts_user);
+      try {
+        setLoading(true);
+        const response = await fetch("/feeder");
+        const data = await response.json();
+
+        setPosts_user(data.posts_user);
+        setLoading(false);
+      } catch {
+        setLoading(false);
+      }
     };
-    getFeeds();
-  }, []);
+    if (isOnLine) {
+      dispatch(setNetWorkError("Your connection is restored"));
+      getFeeds();
+    } else {
+      dispatch(setNetWorkError("You are offline"));
+    }
+    window.addEventListener("online", () => {
+      setIsOnLine(true);
+    });
+    window.addEventListener("offline", () => {
+      setIsOnLine(false);
+    });
+
+    return () => {
+      window.removeEventListener("online", () => {
+        setIsOnLine(true);
+      });
+      window.removeEventListener("offline", () => {
+        setIsOnLine(false);
+      });
+    };
+  }, [isOnLine]);
+
   return (
     <>
+      {loading && <FeedItemSkeleton />}
       {posts_user?.map((post) => (
         <Post key={post.id} post={post} />
       ))}
+
+      {isCommentModalShown && <CommentModal />}
     </>
   );
 }

@@ -12,7 +12,7 @@ export default function Content({
     <div>
       <p className=" px-3.5 my-2">{content}</p>
       {/** image */}
-      <Medias medias={medias} type="media" />
+      <Medias medias={medias} />
     </div>
   );
 }

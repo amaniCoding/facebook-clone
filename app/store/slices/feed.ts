@@ -16,10 +16,12 @@ interface FeedState {
     hasChoosenPhoto: boolean;
     upLoadedMedias: UploadedMediaType[];
   };
+  netWorkError: string;
 }
 
 // Define the initial state using that type
 const initialState: FeedState = {
+  netWorkError: "",
   currentPostAction: {
     toShowCommentModal: false,
   },
@@ -46,6 +48,9 @@ export const feedSlice = createSlice({
       state.addPost.post = action.payload;
     },
 
+    setNetWorkError: (state, action: PayloadAction<string>) => {
+      state.netWorkError = action.payload;
+    },
     setUploadedMediasToAdd: (
       state,
       action: PayloadAction<SetUploadedMediasToAdd>
@@ -80,6 +85,7 @@ export const {
   showAddPostModal,
   setPostToAdd,
   setUploadedMediasToAdd,
+  setNetWorkError,
 } = feedSlice.actions;
 
 export default feedSlice.reducer;

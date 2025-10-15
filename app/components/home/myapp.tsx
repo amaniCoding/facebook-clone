@@ -13,6 +13,9 @@ export default function MyApp({
   const isCommentBoxOpened = useAppSelector(
     (state) => state.feed.currentPostAction.toShowCommentModal
   );
+
+  const netWorkError = useAppSelector((state) => state.feed.netWorkError);
+
   useEffect(() => {
     if (isPostBoxOpened || isCommentBoxOpened) {
       document.body.style.overflowY = "hidden";
@@ -20,5 +23,14 @@ export default function MyApp({
       document.body.style.overflowY = "auto";
     }
   }, [isCommentBoxOpened, isPostBoxOpened]);
-  return <>{children}</>;
+  return (
+    <>
+      {netWorkError ? (
+        <div className="fixed bottom-3 left-3 px-3 py-2 bg-slate-800 rounded-lg text-center text-white">
+          {netWorkError}
+        </div>
+      ) : null}
+      {children}
+    </>
+  );
 }
