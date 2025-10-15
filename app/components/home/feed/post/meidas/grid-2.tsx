@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { UploadedMediasTypes } from "./types";
 
 export default function Grid2({ medias }: UploadedMediasTypes) {
