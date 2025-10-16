@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { UploadedMediasTypes } from "./types";
-
+//
 export default function Grid2({ uploadedMedias }: UploadedMediasTypes) {
   return (
     <div className="flex space-x-2 w-full">
