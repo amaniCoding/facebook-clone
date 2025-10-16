@@ -11,7 +11,7 @@ export async function login(prevState: string | undefined, formData: FormData) {
       email: formData.get("email"),
       password: formData.get("password"),
       isNewUser: false,
-      redirect: false,
+      redirectTo: "/",
     });
     revalidatePath("/");
     redirect("/");
