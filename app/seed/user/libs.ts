@@ -26,30 +26,6 @@ function generatePhoto(photoCount: number) {
   });
 }
 
-function seedComments() {
-  return Array.from({ length: 10 }, () => {
-    const randomTextIndex = Math.floor(Math.random() * 20);
-    const content = randomTexts[randomTextIndex];
-
-    const randomPostOptionIndex = Math.floor(Math.random() * 3);
-    const randomPostOption: UserPostOption = userPostOption[
-      randomPostOptionIndex
-    ] as UserPostOption;
-    const randomPhotoCount = Math.floor(Math.random() * 6) + 1;
-
-    return {
-      content:
-        randomPostOption === "both" || randomPostOption === "contentonly"
-          ? content
-          : null,
-      mediaUrl:
-        randomPostOption === "both" || randomPostOption === "mediasonly"
-          ? `/user/${randomPhotoCount}.jpg`
-          : null,
-      userId: randomUser.id,
-    };
-  });
-}
 export function UserPostSeeder() {
   return Array.from({ length: 2 }, async () => {
     const user = await getRandomUser();

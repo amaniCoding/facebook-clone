@@ -2,7 +2,7 @@ import { put } from "@vercel/blob";
 
 export async function createPost(formData: FormData) {
   const medias: File[] = formData.getAll("photos") as File[];
-  const post = formData.get("post") as string;
+  formData.get("post") as string;
   const photoUrls: { url: string; type: string }[] = [];
   if (medias && medias.length > 0) {
     await Promise.all(
