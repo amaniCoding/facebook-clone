@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 
-import { stories } from "@/app/seed/story";
 import StorySliderItem from "./storyslideritem";
 import { BsPlus } from "react-icons/bs";
 import Slider from "react-slick";
@@ -11,6 +10,7 @@ import { MdNavigateBefore, MdNavigateNext } from "react-icons/md";
 import { LoggedInUser } from "./types";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { stories } from "@/app/seed/dummy";
 
 export default function Stories({
   loggedInUser: { profilePicture },

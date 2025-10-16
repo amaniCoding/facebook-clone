@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 
 import { UploadedMediasTypes } from "./uploadedmedias/types";
 import Grid3 from "./uploadedmedias/grid-3";
@@ -14,15 +13,16 @@ export default function UploadedMedias({
   return (
     <div className={`w-full rounded-xl bg-amber-200`}>
       {/* {uploadedMedias!.length} */}
-      {uploadedMedias!.length === 1 && (
-        <Image
-          alt="Amanuel Ferede"
-          src={uploadedMedias![0].url}
-          width={0}
-          height={0}
-          sizes="100vh"
-          className="w-full h-full object-cover"
-        />
+      {uploadedMedias!.length === 1 && uploadedMedias![0].type === "image" && (
+        <div
+          className="w-full"
+          style={{
+            backgroundImage: "url(" + `${uploadedMedias![0].url}` + ")",
+            backgroundPosition: "top center",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+          }}
+        ></div>
       )}
       {uploadedMedias!.length === 2 && (
         <Grid2 uploadedMedias={uploadedMedias} />

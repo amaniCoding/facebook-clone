@@ -3,10 +3,10 @@ import { UploadedMediasTypes } from "./types";
 
 export default function Grid3({ medias }: UploadedMediasTypes) {
   return (
-    <div className="flex space-x-1.5 w-full h-full">
+    <div className="flex space-x-1.5 w-full h-[28rem]">
       {medias![0].type === "image" && (
         <div
-          className="w-[70%]"
+          className="w-[60%] h-full"
           style={{
             backgroundImage: "url(" + `${medias![0].url}` + ")",
             backgroundPosition: "top center",
@@ -15,7 +15,7 @@ export default function Grid3({ medias }: UploadedMediasTypes) {
           }}
         ></div>
       )}
-      <div className="w-[30%] flex flex-col space-y-2">
+      <div className="w-[40%] flex flex-col space-y-2">
         {medias!.slice(1, 3).map(
           (media, index) =>
             media.type === "image" && (

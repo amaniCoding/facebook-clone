@@ -1,19 +1,19 @@
 import prisma from "@/app/libs/prisma";
-import { MediaType, User } from "@/generated/prisma";
-import { randomTexts } from "../../dummy";
+import { Gender, MediaType } from "@/generated/prisma";
+import { randomTexts, users } from "../dummy";
 
 const userPostOption = ["contentonly", "mediasonly", "both"];
 type UserPostOption = "contentonly" | "mediasonly" | "both";
-let randomUser: User;
 
 async function getRandomUser() {
   const users = await prisma.user.findMany({});
   const randomUserIndex = Math.floor(Math.random() * users.length);
 
-  randomUser = users[randomUserIndex];
+  const randomUser = users[randomUserIndex];
+  return randomUser;
 }
 
-await getRandomUser();
+const randomUser = await getRandomUser();
 
 function generatePhoto(photoCount: number) {
   return Array.from({ length: photoCount }, () => {
@@ -26,8 +26,33 @@ function generatePhoto(photoCount: number) {
   });
 }
 
-export function _seed() {
+function seedComments() {
   return Array.from({ length: 10 }, () => {
+    const randomTextIndex = Math.floor(Math.random() * 20);
+    const content = randomTexts[randomTextIndex];
+
+    const randomPostOptionIndex = Math.floor(Math.random() * 3);
+    const randomPostOption: UserPostOption = userPostOption[
+      randomPostOptionIndex
+    ] as UserPostOption;
+    const randomPhotoCount = Math.floor(Math.random() * 6) + 1;
+
+    return {
+      content:
+        randomPostOption === "both" || randomPostOption === "contentonly"
+          ? content
+          : null,
+      mediaUrl:
+        randomPostOption === "both" || randomPostOption === "mediasonly"
+          ? `/user/${randomPhotoCount}.jpg`
+          : null,
+      userId: randomUser.id,
+    };
+  });
+}
+export function UserPostSeeder() {
+  return Array.from({ length: 2 }, async () => {
+    const user = await getRandomUser();
     const randomPostOptionIndex = Math.floor(Math.random() * 3);
     const randomPostOption: UserPostOption = userPostOption[
       randomPostOptionIndex
@@ -40,7 +65,7 @@ export function _seed() {
     return prisma.post_USER.create({
       data: {
         user: {
-          connect: { id: randomUser.id },
+          connect: { id: user.id },
         },
         content:
           randomPostOption === "contentonly" || randomPostOption === "both"
@@ -54,6 +79,21 @@ export function _seed() {
                 },
               }
             : undefined,
+      },
+    });
+  });
+}
+
+export function UserSeeder() {
+  return users.map((user) => {
+    return prisma.user.create({
+      data: {
+        firstName: user.fname,
+        lastName: user.lname,
+        birthDate: user.birthDay,
+        gender: user.gender as Gender,
+        email: user.mobileOrPhoneNumber,
+        password: user.password,
       },
     });
   });

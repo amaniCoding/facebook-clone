@@ -1,7 +1,7 @@
-import { _seed } from "./libs";
+import { _seedPosts } from "./libs";
 
 const seed = async () => {
-  await Promise.all(_seed());
+  await Promise.all(_seedPosts());
 };
 
 export async function GET() {
