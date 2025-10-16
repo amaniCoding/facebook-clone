@@ -1,4 +1,5 @@
 // lib/prisma.ts
+
 import { PrismaClient } from "@/generated/prisma";
 
 // Add PrismaClient to the global object in development for hot-reloading

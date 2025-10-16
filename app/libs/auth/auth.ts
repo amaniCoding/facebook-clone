@@ -2,6 +2,8 @@ import { verifyPassword } from "@/app/libs/auth/verifypassword";
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import prisma from "@/app/libs/prisma";
+import { PrismaClient } from "@/generated/prisma/client";
+
 export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
@@ -19,7 +21,7 @@ export const authConfig: NextAuthConfig = {
         }
 
         try {
-          const user = await prisma.user.findUnique({
+          const user = await new PrismaClient().user.findUnique({
             where: {
               email: credentials.email as string,
             },
