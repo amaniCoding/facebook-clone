@@ -8,6 +8,9 @@ export const authConfig: NextAuthConfig = {
       id: "credentials",
       name: "Credentials",
       async authorize(credentials) {
+        if (!credentials) {
+          return null;
+        }
         if (credentials.isNewUser) {
           return {
             id: credentials.id as string,
