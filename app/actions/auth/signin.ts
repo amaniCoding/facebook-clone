@@ -13,6 +13,8 @@ export async function login(prevState: string | undefined, formData: FormData) {
       isNewUser: false,
       redirect: false,
     });
+    revalidatePath("/");
+    redirect("/");
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -23,6 +25,4 @@ export async function login(prevState: string | undefined, formData: FormData) {
       }
     }
   }
-  revalidatePath("/");
-  redirect("/");
 }
