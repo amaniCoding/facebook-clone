@@ -18,7 +18,7 @@ export async function login(prevState: string | undefined, formData: FormData) {
         case "CredentialsSignin":
           return "The email or mobile number you entered is not connected to an account. Find your account and log in";
         default:
-          return error.message;
+          return "Something went wrong";
       }
     }
   }

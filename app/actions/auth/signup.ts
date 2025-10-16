@@ -44,7 +44,8 @@ export async function signUp(formData: UserFormData) {
         id: user.id,
       };
     }
-  } catch {
+  } catch (error) {
+    console.log(error);
   } finally {
     prisma.$disconnect();
   }

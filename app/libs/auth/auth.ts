@@ -1,7 +1,7 @@
 import { verifyPassword } from "@/app/libs/auth/verifypassword";
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import prisma from "../prisma";
+import prisma from "@/app/libs/prisma";
 export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
@@ -47,7 +47,7 @@ export const authConfig: NextAuthConfig = {
           }
           return null;
         } catch {
-          throw new Error("Something went worng");
+          throw new Error("Back");
         }
       },
     }),
