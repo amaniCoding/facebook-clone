@@ -13,6 +13,7 @@ export async function login(prevState: string | undefined, formData: FormData) {
       redirect: false,
     });
   } catch (error) {
+    console.log(error);
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
