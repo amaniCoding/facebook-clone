@@ -273,3 +273,13 @@ export const stories = [
     post: "/users/2.jpg",
   },
 ];
+
+export const reactionTypes = [
+  "like",
+  "love",
+  "care",
+  "haha",
+  "waw",
+  "sad",
+  "angry",
+];

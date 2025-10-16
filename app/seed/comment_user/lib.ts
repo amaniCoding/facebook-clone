@@ -27,7 +27,9 @@ await getRandomUser();
 await getPosts(1);
 
 export function createComment(post: Post_USER) {
-  return Array.from({ length: 5 }, () => {
+  const addition = Math.floor(Math.random() * 3) + 1;
+
+  return Array.from({ length: 5 + addition }, () => {
     const randomPostOptionIndex = Math.floor(Math.random() * 3);
     const randomPostOption: UserPostOption = userPostOption[
       randomPostOptionIndex

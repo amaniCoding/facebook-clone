@@ -6,7 +6,11 @@ export async function GET() {
         medias: true,
         user: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
+
     //await seedUser();
     return Response.json({ posts_user: posts_users });
   } catch (error) {
