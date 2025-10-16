@@ -10,6 +10,7 @@ export async function login(prevState: string | undefined, formData: FormData) {
     await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
+      isNewUser: false,
       redirect: false,
     });
   } catch (error) {

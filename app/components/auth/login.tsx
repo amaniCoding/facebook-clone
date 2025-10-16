@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useActionState } from "react";
 
 export default function Login() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [state, formAction, isPending] = useActionState(login, undefined);
   return (
     <div className="md:mt-36 md:max-w-5xl w-full mx-auto">

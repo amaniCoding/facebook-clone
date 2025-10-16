@@ -141,7 +141,6 @@ export default function SignUp() {
 
   const handleFocus = (
     fieldName: keyof UserFormData,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     gender?: "male" | "female" | "custom"
   ) => {
     if (errors[fieldName] || isSubmitting) {
