@@ -7,11 +7,12 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
+    "postinstall": "prisma generate",
     "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-        "prisma": "^6.16.3",
+    "prisma": "^6.16.3",
     "@prisma/adapter-pg": "^6.17.1",
     "@prisma/client": "^6.16.3",
     "@prisma/nextjs-monorepo-workaround-plugin": "^6.17.1",
