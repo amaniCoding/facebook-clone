@@ -3,6 +3,7 @@
 import { UserFormData } from "@/app/libs/schemas/user-schema";
 import prisma from "@/app/libs/prisma";
 import bcrypt from "bcryptjs";
+import { success } from "zod";
 
 export async function signUp(formData: UserFormData) {
   try {
@@ -10,43 +11,12 @@ export async function signUp(formData: UserFormData) {
     const birthDateString = `${formData.birthyear}-${formData.birthmonth}-${newBirthDate}`;
 
     const birthDate = new Date(birthDateString);
-    const existingUser = await prisma.user.findFirst({
-      where: {
-        email: formData.email,
-      },
-    });
 
-    if (existingUser) {
-      return {
-        errors: {
-          email: "Email you provided already taken",
-        },
-      };
-    }
-    const user = await prisma.user.create({
-      data: {
-        firstName: formData.fname,
-        lastName: formData.lname,
-        birthDate: birthDate,
-        gender: formData.gender,
-        customGender: formData.customgender ? formData.customgender : null,
-        customGenderPronoun: formData.customgenderpronoun
-          ? formData.customgenderpronoun
-          : null,
-        email: formData.email,
-        password: await bcrypt.hash(formData.password, 10),
-      },
-    });
-
-    if (!user) {
-      return {
-        success: true,
-
-        message: `Created !`,
-      };
-    }
+    return {
+      message: "working",
+      success: true,
+    };
   } catch (error) {
-    console.log(error);
   } finally {
     prisma.$disconnect();
   }

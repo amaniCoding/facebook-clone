@@ -89,14 +89,6 @@ export default function SignUp() {
     try {
       setSigning(true);
       const result = await signUp(data);
-      if (result?.errors) {
-        Object.entries(result?.errors).forEach(([field, message]) =>
-          setError(field as keyof UserFormData, {
-            type: "server",
-            message,
-          })
-        );
-      }
 
       if (result?.success) {
         setmsg(result.message);
