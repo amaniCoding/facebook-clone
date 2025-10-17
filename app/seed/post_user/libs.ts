@@ -1,4 +1,4 @@
-import prisma from "@/app/libs/prisma";
+import { prisma } from "@/app/libs/prisma";
 import { randomTexts } from "../dummy";
 import { MediaType, User } from "@/generated/prisma/client";
 

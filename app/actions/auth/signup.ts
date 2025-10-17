@@ -1,7 +1,7 @@
 "use server";
 
+import { prisma } from "@/app/libs/prisma";
 import { UserFormData } from "@/app/libs/schemas/user-schema";
-import prisma from "@/app/libs/prisma";
 import bcrypt from "bcryptjs";
 
 export async function signUp(formData: UserFormData) {
@@ -46,7 +46,5 @@ export async function signUp(formData: UserFormData) {
     }
   } catch (error) {
     console.log(error);
-  } finally {
-    prisma.$disconnect();
   }
 }
