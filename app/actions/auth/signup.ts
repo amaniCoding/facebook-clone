@@ -10,7 +10,19 @@ export async function signUp(formData: UserFormData) {
     const birthDateString = `${formData.birthyear}-${formData.birthmonth}-${newBirthDate}`;
 
     const birthDate = new Date(birthDateString);
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        email: formData.email,
+      },
+    });
 
+    if (existingUser) {
+      return {
+        errors: {
+          email: "Email you provided already taken",
+        },
+      };
+    }
     const user = await prisma.user.create({
       data: {
         firstName: formData.fname,
@@ -29,15 +41,11 @@ export async function signUp(formData: UserFormData) {
     if (user) {
       return {
         success: true,
-
-        message: `Created !`,
+        id: user.id,
       };
     }
   } catch (error) {
-    return {
-      message: "error",
-      success: true,
-    };
+    console.log(error);
   } finally {
     prisma.$disconnect();
   }
