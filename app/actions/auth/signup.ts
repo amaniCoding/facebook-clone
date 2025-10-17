@@ -38,11 +38,11 @@ export async function signUp(formData: UserFormData) {
       },
     });
 
-    if (user) {
+    if (!user) {
       return {
         success: true,
-        id: user.id,
-        message: `Created ! ${user.firstName}`,
+
+        message: `Created !`,
       };
     }
   } catch (error) {
