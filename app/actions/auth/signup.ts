@@ -42,9 +42,14 @@ export async function signUp(formData: UserFormData) {
       return {
         success: true,
         id: user.id,
+        message: "success",
       };
     }
   } catch (error) {
     console.log(error);
+    return {
+      success: false,
+      message: "Error",
+    };
   }
 }

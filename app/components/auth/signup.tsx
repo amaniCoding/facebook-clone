@@ -43,7 +43,7 @@ export default function SignUp() {
     useState<boolean>(false);
   const [BYF, setBYF] = useState<boolean>(false);
   const [dayOptions, setDayOptions] = useState<number[]>(_dayOptions);
-
+  const [error, setErr] = useState("");
   const monthShortNames = [
     "Jan",
     "Feb",
@@ -114,10 +114,6 @@ export default function SignUp() {
 
         router.push("/steps");
       }
-      console.log("submitting", isSubmitting);
-      console.log("isbmitted", isSubmitted);
-      console.log("submitting successfull", isSubmitSuccessful);
-      console.log("data", data);
     } catch (error) {
       console.log(error);
       setSigning(false);
@@ -257,6 +253,7 @@ export default function SignUp() {
           <p className="my-1 text-2xl font-bold text-center">
             Create a new account
           </p>
+          <p>{error}</p>
           <p className="my-1 text-center">It’s quick and easy.</p>
         </div>
         <form onSubmit={handleSubmit(registerUser)}>
