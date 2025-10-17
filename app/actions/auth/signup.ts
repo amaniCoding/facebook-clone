@@ -3,8 +3,6 @@
 import { UserFormData } from "@/app/libs/schemas/user-schema";
 import prisma from "@/app/libs/prisma";
 import bcrypt from "bcryptjs";
-import { success } from "zod";
-import { PrismaClient } from "@/generated/prisma/client";
 
 export async function signUp(formData: UserFormData) {
   try {
@@ -13,7 +11,7 @@ export async function signUp(formData: UserFormData) {
 
     const birthDate = new Date(birthDateString);
 
-    const user = await new PrismaClient().user.create({
+    const user = await prisma.user.create({
       data: {
         firstName: formData.fname,
         lastName: formData.lname,
