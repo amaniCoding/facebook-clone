@@ -12,11 +12,33 @@ export async function signUp(formData: UserFormData) {
 
     const birthDate = new Date(birthDateString);
 
+    const user = await prisma.user.create({
+      data: {
+        firstName: formData.fname,
+        lastName: formData.lname,
+        birthDate: birthDate,
+        gender: formData.gender,
+        customGender: formData.customgender ? formData.customgender : null,
+        customGenderPronoun: formData.customgenderpronoun
+          ? formData.customgenderpronoun
+          : null,
+        email: formData.email,
+        password: await bcrypt.hash(formData.password, 10),
+      },
+    });
+
+    if (!user) {
+      return {
+        success: true,
+
+        message: `Created !`,
+      };
+    }
+  } catch (error) {
     return {
-      message: "working",
+      message: "error",
       success: true,
     };
-  } catch (error) {
   } finally {
     prisma.$disconnect();
   }
