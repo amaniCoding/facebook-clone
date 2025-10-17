@@ -1,6 +1,6 @@
 import prisma from "@/app/libs/prisma";
-import { Gender, MediaType } from "@/generated/prisma";
 import { users } from "../dummy";
+import { Gender } from "@/generated/prisma/client";
 
 export function _seeder() {
   return users.map((user) => {
