@@ -42,6 +42,7 @@ export async function signUp(formData: UserFormData) {
       return {
         success: true,
         id: user.id,
+        message: `Created ! ${user.firstName}`,
       };
     }
   } catch (error) {

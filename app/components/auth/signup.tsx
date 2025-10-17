@@ -43,7 +43,7 @@ export default function SignUp() {
     useState<boolean>(false);
   const [BYF, setBYF] = useState<boolean>(false);
   const [dayOptions, setDayOptions] = useState<number[]>(_dayOptions);
-
+  const [msg, setmsg] = useState("");
   const monthShortNames = [
     "Jan",
     "Feb",
@@ -99,25 +99,9 @@ export default function SignUp() {
       }
 
       if (result?.success) {
-        await signIn("credentials", {
-          isNewUser: true,
-          id: result.id,
-          email: data.email,
-          firstName: data.fname,
-          lastName: data.lname,
-          profilePicture:
-            data.gender === "male"
-              ? "/brands/male-d.jpg"
-              : "/brands/female-d.jpg",
-          redirect: false,
-        });
-
-        router.push("/steps");
+        setmsg(result.message);
+        //router.push("/steps");
       }
-      console.log("submitting", isSubmitting);
-      console.log("isbmitted", isSubmitted);
-      console.log("submitting successfull", isSubmitSuccessful);
-      console.log("data", data);
     } catch (error) {
       console.log(error);
       setSigning(false);
@@ -258,6 +242,7 @@ export default function SignUp() {
             Create a new account
           </p>
           <p className="my-1 text-center">It’s quick and easy.</p>
+          <p>{msg}</p>
         </div>
         <form onSubmit={handleSubmit(registerUser)}>
           <div className="p-4">

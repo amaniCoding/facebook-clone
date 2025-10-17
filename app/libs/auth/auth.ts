@@ -5,8 +5,8 @@ import prisma from "../prisma";
 export const authConfig: NextAuthConfig = {
   providers: [
     Credentials({
-      id: "credentials",
       name: "Credentials",
+
       async authorize(credentials) {
         if (!credentials) {
           return null;
