@@ -1,9 +1,6 @@
 // lib/prisma.ts
 
 import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 
 // Add PrismaClient to the global object in development for hot-reloading
 declare global {
@@ -13,10 +10,10 @@ declare global {
 let prisma: PrismaClient;
 
 if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient({ adapter });
+  prisma = new PrismaClient();
 } else {
   if (!global.prisma) {
-    global.prisma = new PrismaClient({ adapter });
+    global.prisma = new PrismaClient();
   }
   prisma = global.prisma;
 }
