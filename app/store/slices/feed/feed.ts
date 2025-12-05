@@ -1,5 +1,5 @@
 import { FeedsType } from "@/app/api/feeder/[page]/lib";
-import { ReactionType } from "@/generated/prisma/client";
+import { PostType, ReactionType } from "@/generated/prisma/client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type updateFeedWithReactPayLoadType = {
   gReactions:
@@ -8,6 +8,8 @@ type updateFeedWithReactPayLoadType = {
         count: number;
       }[]
     | undefined;
+  feedId: string | undefined;
+  postType: PostType | undefined;
   reactionType: ReactionType | undefined;
 };
 export type FeedResponseType = {
@@ -41,7 +43,42 @@ export const feedSlice = createSlice({
     updateFeedWithReact: (
       state,
       action: PayloadAction<updateFeedWithReactPayLoadType | undefined>
-    ) => {},
+    ) => {
+      const feed = state.feeds.feeds?.find((feed) => {
+        return feed.feedId === action.payload?.feedId;
+      });
+      if (action.payload?.postType === "oUserPost") {
+        feed!.userPost!.oUserPost!._gReactions = action.payload.gReactions;
+        feed!.userPost!.oUserPost!._isReacted!.reactionType =
+          action.payload.reactionType!;
+      }
+      if (action.payload?.postType === "userSharePost") {
+        feed!.userPost!.userSharePost!._gReactions = action.payload.gReactions;
+        feed!.userPost!.userSharePost!._isReacted!.reactionType =
+          action.payload.reactionType!;
+      }
+      if (action.payload?.postType === "oPagePost") {
+        feed!.pagePost!.oPagePost!._gReactions = action.payload.gReactions;
+        feed!.pagePost!.oPagePost!._isReacted!.reactionType =
+          action.payload.reactionType!;
+      }
+      if (action.payload?.postType === "pageSharePost") {
+        feed!.pagePost!.pageSharePost!._gReactions = action.payload.gReactions;
+        feed!.pagePost!.pageSharePost!._isReacted!.reactionType =
+          action.payload.reactionType!;
+      }
+      if (action.payload?.postType === "oGroupPost") {
+        feed!.groupPost!.oGroupPost!._gReactions = action.payload.gReactions;
+        feed!.groupPost!.oGroupPost!._isReacted!.reactionType =
+          action.payload.reactionType!;
+      }
+      if (action.payload?.postType === "toGroupSharedPost") {
+        feed!.groupPost!.toGroupSharedPost!._gReactions =
+          action.payload.gReactions;
+        feed!.groupPost!.toGroupSharedPost!._isReacted!.reactionType =
+          action.payload.reactionType!;
+      }
+    },
   },
 });
 

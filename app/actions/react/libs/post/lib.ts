@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 import prisma from "@/app/libs/prisma";
 import { PostType, ReactionType } from "@/generated/prisma/enums";

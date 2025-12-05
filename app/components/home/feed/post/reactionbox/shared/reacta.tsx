@@ -2,18 +2,22 @@
 "use client";
 import { State } from "@/app/actions/react/types";
 import { updateFeedWithReact } from "@/app/store/slices/feed/feed";
-import { ReactionType } from "@/generated/prisma/client";
+import { PostType, ReactionType } from "@/generated/prisma/client";
 import Image from "next/image";
 import { useActionState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 export default function ReactA({
   actionOn,
+  feedId,
+  postType,
 }: {
   actionOn: (
     reactionType: ReactionType,
     prevState: State | undefined
   ) => Promise<State | undefined>;
+  feedId: string | undefined;
+  postType: PostType | undefined;
 }) {
   const dispatch = useDispatch();
   const initialState: State = {
@@ -78,11 +82,15 @@ export default function ReactA({
         updateFeedWithReact({
           gReactions: stateLike?._gReactions,
           reactionType: stateLike?.reactionType,
+          feedId,
+          postType,
         })
       );
     }
   }, [
     dispatch,
+    feedId,
+    postType,
     stateLike?._gReactions,
     stateLike?.reactionType,
     stateLike?.success,
@@ -94,11 +102,15 @@ export default function ReactA({
         updateFeedWithReact({
           gReactions: stateLove?._gReactions,
           reactionType: stateLove?.reactionType,
+          feedId,
+          postType,
         })
       );
     }
   }, [
     dispatch,
+    feedId,
+    postType,
     stateLove?._gReactions,
     stateLove?.reactionType,
     stateLove?.success,
@@ -109,11 +121,15 @@ export default function ReactA({
         updateFeedWithReact({
           gReactions: stateCare?._gReactions,
           reactionType: stateCare?.reactionType,
+          feedId,
+          postType,
         })
       );
     }
   }, [
     dispatch,
+    feedId,
+    postType,
     stateCare?._gReactions,
     stateCare?.reactionType,
     stateCare?.success,
@@ -125,11 +141,15 @@ export default function ReactA({
         updateFeedWithReact({
           gReactions: stateHaha?._gReactions,
           reactionType: stateHaha?.reactionType,
+          feedId,
+          postType,
         })
       );
     }
   }, [
     dispatch,
+    feedId,
+    postType,
     stateHaha?._gReactions,
     stateHaha?.reactionType,
     stateHaha?.success,
@@ -141,11 +161,15 @@ export default function ReactA({
         updateFeedWithReact({
           gReactions: stateWow?._gReactions,
           reactionType: stateWow?.reactionType,
+          feedId,
+          postType,
         })
       );
     }
   }, [
     dispatch,
+    feedId,
+    postType,
     stateWow?._gReactions,
     stateWow?.reactionType,
     stateWow?.success,
@@ -157,11 +181,15 @@ export default function ReactA({
         updateFeedWithReact({
           gReactions: stateSad?._gReactions,
           reactionType: stateSad?.reactionType,
+          feedId,
+          postType,
         })
       );
     }
   }, [
     dispatch,
+    feedId,
+    postType,
     stateSad?._gReactions,
     stateSad?.reactionType,
     stateSad?.success,
@@ -173,11 +201,15 @@ export default function ReactA({
         updateFeedWithReact({
           gReactions: stateAngry?._gReactions,
           reactionType: stateAngry?.reactionType,
+          feedId,
+          postType,
         })
       );
     }
   }, [
     dispatch,
+    feedId,
+    postType,
     stateAngry?._gReactions,
     stateAngry?.reactionType,
     stateAngry?.success,

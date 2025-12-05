@@ -10,7 +10,7 @@ import {
 import ReactA from "../shared/reacta";
 
 import { State } from "@/app/actions/react/types";
-import { PostType } from "@/generated/prisma/client";
+import { PostType, ReactionType } from "@/generated/prisma/client";
 import { _react } from "@/app/actions/react/react";
 export default function ReactionBox({
   post,
@@ -37,124 +37,166 @@ export default function ReactionBox({
       undefined,
       undefined,
       undefined
-    )! as unknown as Promise<State | undefined>;
+    )! as unknown as (
+      reactionType: ReactionType,
+      prevState: State | undefined
+    ) => Promise<State | undefined>;
 
     return (
       <>
         <div onMouseEnter={keepShowing} onMouseLeave={hideShowing}>
-          <ReactA actionOn={z!} />
+          <ReactA
+            actionOn={z!}
+            feedId={_post.feedId}
+            postType={_post.postType}
+          />
         </div>
       </>
     );
   }
   if (post!.type === "userSharePost") {
-    const _post = post!.post as OUserPost;
+    const _post = post!.post as UserSharePost;
     const x = _react("post", "itSelf");
     const z = x!.bind(
       null,
-      "oUserPost",
+      "userSharePost",
       _post.postId!,
       undefined,
       undefined,
       undefined,
       undefined
-    )! as unknown as Promise<State | undefined>;
+    )! as unknown as (
+      reactionType: ReactionType,
+      prevState: State | undefined
+    ) => Promise<State | undefined>;
 
     return (
       <>
         <div onMouseEnter={keepShowing} onMouseLeave={hideShowing}>
-          <ReactA actionOn={z!} />
+          <ReactA
+            actionOn={z!}
+            feedId={_post.feedId}
+            postType={_post.postType}
+          />
         </div>
       </>
     );
   }
 
   if (post!.type === "oPagePost") {
-    const _post = post!.post as OUserPost;
+    const _post = post!.post as OPagePost;
     const x = _react("post", "itSelf");
 
     const z = x!.bind(
       null,
-      "oUserPost",
+      "oPagePost",
       _post.postId!,
       undefined,
       undefined,
       undefined,
       undefined
-    )! as unknown as Promise<State | undefined>;
+    )! as unknown as (
+      reactionType: ReactionType,
+      prevState: State | undefined
+    ) => Promise<State | undefined>;
 
     return (
       <>
         <div onMouseEnter={keepShowing} onMouseLeave={hideShowing}>
-          <ReactA actionOn={z!} />
+          <ReactA
+            actionOn={z!}
+            feedId={_post.feedId}
+            postType={_post.postType}
+          />
         </div>
       </>
     );
   }
 
   if (post!.type === "pageSharePost") {
-    const _post = post!.post as OUserPost;
+    const _post = post!.post as PageSharePost;
     const x = _react("post", "itSelf");
 
     const z = x!.bind(
       null,
-      "oUserPost",
+      "pageSharePost",
       _post.postId!,
       undefined,
       undefined,
       undefined,
       undefined
-    )! as unknown as Promise<State | undefined>;
+    )! as unknown as (
+      reactionType: ReactionType,
+      prevState: State | undefined
+    ) => Promise<State | undefined>;
 
     return (
       <>
         <div onMouseEnter={keepShowing} onMouseLeave={hideShowing}>
-          <ReactA actionOn={z!} />
+          <ReactA
+            actionOn={z!}
+            feedId={_post.feedId}
+            postType={_post.postType}
+          />
         </div>
       </>
     );
   }
 
   if (post!.type === "oGroupPost") {
-    const _post = post!.post as OUserPost;
+    const _post = post!.post as OGroupPost;
     const x = _react("post", "itSelf");
 
     const z = x!.bind(
       null,
-      "oUserPost",
+      "oGroupPost",
       _post.postId!,
       undefined,
       undefined,
       undefined,
       undefined
-    )! as unknown as Promise<State | undefined>;
+    )! as unknown as (
+      reactionType: ReactionType,
+      prevState: State | undefined
+    ) => Promise<State | undefined>;
 
     return (
       <>
         <div onMouseEnter={keepShowing} onMouseLeave={hideShowing}>
-          <ReactA actionOn={z!} />
+          <ReactA
+            actionOn={z!}
+            feedId={_post.feedId}
+            postType={_post.postType}
+          />
         </div>
       </>
     );
   }
 
   if (post!.type === "toGroupSharedPost") {
-    const _post = post!.post as OUserPost;
+    const _post = post!.post as ToGroupSharedPost;
     const x = _react("post", "itSelf");
     const z = x!.bind(
       null,
-      "oUserPost",
+      "toGroupSharedPost",
       _post.postId!,
       undefined,
       undefined,
       undefined,
       undefined
-    )! as unknown as Promise<State | undefined>;
+    )! as unknown as (
+      reactionType: ReactionType,
+      prevState: State | undefined
+    ) => Promise<State | undefined>;
 
     return (
       <>
         <div onMouseEnter={keepShowing} onMouseLeave={hideShowing}>
-          <ReactA actionOn={z!} />
+          <ReactA
+            actionOn={z!}
+            feedId={_post.feedId}
+            postType={_post.postType}
+          />
         </div>
       </>
     );
