@@ -1,17 +1,25 @@
+"use server";
 import prisma from "@/app/libs/prisma";
 import { PostType, ReactionType } from "@/generated/prisma/enums";
-import { State } from "../../../types";
+import { State } from "../../types";
+import { auth } from "@/app/auth";
 
 export const reactPost = async (
-  userId: string,
   postType: PostType,
   postId: string,
+  mediaId: string | undefined,
+  commentId: string | undefined,
+  replyId: string | undefined,
+  replyReplyId: string | undefined,
   reactionType: ReactionType,
-
   prevState: State
 ) => {
-  if (postType === "oUserPost") {
-    try {
+  try {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Un aauthorized request");
+    }
+    if (postType === "oUserPost") {
       const isReacted = await prisma.oUserPost.findUnique({
         where: {
           id: postId,
@@ -19,7 +27,7 @@ export const reactPost = async (
         select: {
           reactions: {
             where: {
-              userId: userId,
+              userId: session.user.id,
             },
             select: {
               id: true,
@@ -45,7 +53,7 @@ export const reactPost = async (
 
                   user: {
                     connect: {
-                      id: userId,
+                      id: session.user.id,
                     },
                   },
                 },
@@ -64,7 +72,7 @@ export const reactPost = async (
                 reactionType: reactionType!,
                 user: {
                   connect: {
-                    id: userId,
+                    id: session.user.id,
                   },
                 },
               },
@@ -96,18 +104,9 @@ export const reactPost = async (
         reactionType,
         message: "Success ",
       };
-    } catch {
-      return {
-        success: false,
-        _gReactions: undefined,
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "userSharePost") {
-    try {
+    if (postType === "userSharePost") {
       const isReacted = await prisma.userSharePost.findUnique({
         where: {
           id: postId,
@@ -115,7 +114,7 @@ export const reactPost = async (
         select: {
           reactions: {
             where: {
-              userId: userId,
+              userId: session.user.id,
             },
             select: {
               id: true,
@@ -141,7 +140,7 @@ export const reactPost = async (
 
                   user: {
                     connect: {
-                      id: userId,
+                      id: session.user.id,
                     },
                   },
                 },
@@ -160,7 +159,7 @@ export const reactPost = async (
                 reactionType: reactionType!,
                 user: {
                   connect: {
-                    id: userId,
+                    id: session.user.id,
                   },
                 },
               },
@@ -192,18 +191,9 @@ export const reactPost = async (
         reactionType,
         message: "Success ",
       };
-    } catch {
-      return {
-        success: false,
-        _gReactions: undefined,
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "oPagePost") {
-    try {
+    if (postType === "oPagePost") {
       const isReacted = await prisma.oPagePost.findUnique({
         where: {
           id: postId,
@@ -211,7 +201,7 @@ export const reactPost = async (
         select: {
           reactions: {
             where: {
-              userId: userId,
+              userId: session.user.id,
             },
             select: {
               id: true,
@@ -237,7 +227,7 @@ export const reactPost = async (
 
                   user: {
                     connect: {
-                      id: userId,
+                      id: session.user.id,
                     },
                   },
                 },
@@ -256,7 +246,7 @@ export const reactPost = async (
                 reactionType: reactionType!,
                 user: {
                   connect: {
-                    id: userId,
+                    id: session.user.id,
                   },
                 },
               },
@@ -288,18 +278,9 @@ export const reactPost = async (
         reactionType,
         message: "Success ",
       };
-    } catch {
-      return {
-        success: false,
-        _gReactions: undefined,
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "pageSharePost") {
-    try {
+    if (postType === "pageSharePost") {
       const isReacted = await prisma.pageSharePost.findUnique({
         where: {
           id: postId,
@@ -307,7 +288,7 @@ export const reactPost = async (
         select: {
           reactions: {
             where: {
-              userId: userId,
+              userId: session.user.id,
             },
             select: {
               id: true,
@@ -333,7 +314,7 @@ export const reactPost = async (
 
                   user: {
                     connect: {
-                      id: userId,
+                      id: session.user.id,
                     },
                   },
                 },
@@ -352,7 +333,7 @@ export const reactPost = async (
                 reactionType: reactionType!,
                 user: {
                   connect: {
-                    id: userId,
+                    id: session.user.id,
                   },
                 },
               },
@@ -384,17 +365,9 @@ export const reactPost = async (
         reactionType,
         message: "Success ",
       };
-    } catch {
-      return {
-        success: false,
-        _gReactions: undefined,
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
-  if (postType === "oGroupPost") {
-    try {
+
+    if (postType === "oGroupPost") {
       const isReacted = await prisma.oGroupPost.findUnique({
         where: {
           id: postId,
@@ -402,7 +375,7 @@ export const reactPost = async (
         select: {
           reactions: {
             where: {
-              userId: userId,
+              userId: session.user.id,
             },
             select: {
               id: true,
@@ -428,7 +401,7 @@ export const reactPost = async (
 
                   user: {
                     connect: {
-                      id: userId,
+                      id: session.user.id,
                     },
                   },
                 },
@@ -447,7 +420,7 @@ export const reactPost = async (
                 reactionType: reactionType!,
                 user: {
                   connect: {
-                    id: userId,
+                    id: session.user.id,
                   },
                 },
               },
@@ -479,18 +452,9 @@ export const reactPost = async (
         reactionType,
         message: "Success ",
       };
-    } catch {
-      return {
-        success: false,
-        _gReactions: undefined,
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "toGroupSharedPost") {
-    try {
+    if (postType === "toGroupSharedPost") {
       const isReacted = await prisma.toGroupSharePost.findUnique({
         where: {
           id: postId,
@@ -498,7 +462,7 @@ export const reactPost = async (
         select: {
           reactions: {
             where: {
-              userId: userId,
+              userId: session.user.id,
             },
             select: {
               id: true,
@@ -524,7 +488,7 @@ export const reactPost = async (
 
                   user: {
                     connect: {
-                      id: userId,
+                      id: session.user.id,
                     },
                   },
                 },
@@ -543,7 +507,7 @@ export const reactPost = async (
                 reactionType: reactionType!,
                 user: {
                   connect: {
-                    id: userId,
+                    id: session.user.id,
                   },
                 },
               },
@@ -575,28 +539,33 @@ export const reactPost = async (
         reactionType,
         message: "Success ",
       };
-    } catch {
-      return {
-        success: false,
-        _gReactions: undefined,
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
+  } catch {
+    return {
+      success: false,
+      _gReactions: undefined,
+      reactionType: undefined,
+      message: "Failed ",
+    };
   }
 };
 
 export const reactComment = async (
-  userId: string,
   postType: PostType,
   postId: string,
+  mediaId: string | undefined,
   commentId: string | undefined,
+  replyId: string | undefined,
+  replyReplyId: string | undefined,
   reactionType: ReactionType,
-
   prevState: State
 ) => {
-  if (postType === "oUserPost") {
-    try {
+  try {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Un aauthorized request");
+    }
+    if (postType === "oUserPost") {
       const isCommentReacted = await prisma.oUserPost.findUnique({
         where: {
           id: postId,
@@ -609,7 +578,7 @@ export const reactComment = async (
             select: {
               reactions: {
                 where: {
-                  userId,
+                  userId: session.user.id,
                 },
                 select: {
                   id: true,
@@ -641,7 +610,7 @@ export const reactComment = async (
                         reactionType: reactionType,
                         user: {
                           connect: {
-                            id: userId,
+                            id: session.user.id,
                           },
                         },
                       },
@@ -669,7 +638,7 @@ export const reactComment = async (
                       reactionType: reactionType,
                       user: {
                         connect: {
-                          id: userId,
+                          id: session.user.id,
                         },
                       },
                     },
@@ -704,18 +673,9 @@ export const reactComment = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "userSharePost") {
-    try {
+    if (postType === "userSharePost") {
       const isCommentReacted = await prisma.userSharePost.findUnique({
         where: {
           id: postId,
@@ -728,7 +688,7 @@ export const reactComment = async (
             select: {
               reactions: {
                 where: {
-                  userId,
+                  userId: session.user.id,
                 },
                 select: {
                   id: true,
@@ -760,7 +720,7 @@ export const reactComment = async (
                         reactionType: reactionType,
                         user: {
                           connect: {
-                            id: userId,
+                            id: session.user.id,
                           },
                         },
                       },
@@ -788,7 +748,7 @@ export const reactComment = async (
                       reactionType: reactionType,
                       user: {
                         connect: {
-                          id: userId,
+                          id: session.user.id,
                         },
                       },
                     },
@@ -823,18 +783,9 @@ export const reactComment = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "oPagePost") {
-    try {
+    if (postType === "oPagePost") {
       const isCommentReacted = await prisma.oPagePost.findUnique({
         where: {
           id: postId,
@@ -847,7 +798,7 @@ export const reactComment = async (
             select: {
               reactions: {
                 where: {
-                  userId,
+                  userId: session.user.id,
                 },
                 select: {
                   id: true,
@@ -879,7 +830,7 @@ export const reactComment = async (
                         reactionType: reactionType,
                         user: {
                           connect: {
-                            id: userId,
+                            id: session.user.id,
                           },
                         },
                       },
@@ -907,7 +858,7 @@ export const reactComment = async (
                       reactionType: reactionType,
                       user: {
                         connect: {
-                          id: userId,
+                          id: session.user.id,
                         },
                       },
                     },
@@ -942,18 +893,9 @@ export const reactComment = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "pageSharePost") {
-    try {
+    if (postType === "pageSharePost") {
       const isCommentReacted = await prisma.pageSharePost.findUnique({
         where: {
           id: postId,
@@ -966,7 +908,7 @@ export const reactComment = async (
             select: {
               reactions: {
                 where: {
-                  userId,
+                  userId: session.user.id,
                 },
                 select: {
                   id: true,
@@ -998,7 +940,7 @@ export const reactComment = async (
                         reactionType: reactionType,
                         user: {
                           connect: {
-                            id: userId,
+                            id: session.user.id,
                           },
                         },
                       },
@@ -1026,7 +968,7 @@ export const reactComment = async (
                       reactionType: reactionType,
                       user: {
                         connect: {
-                          id: userId,
+                          id: session.user.id,
                         },
                       },
                     },
@@ -1061,17 +1003,8 @@ export const reactComment = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
-  if (postType === "oGroupPost") {
-    try {
+    if (postType === "oGroupPost") {
       const isCommentReacted = await prisma.oGroupPost.findUnique({
         where: {
           id: postId,
@@ -1084,7 +1017,7 @@ export const reactComment = async (
             select: {
               reactions: {
                 where: {
-                  userId,
+                  userId: session.user.id,
                 },
                 select: {
                   id: true,
@@ -1116,7 +1049,7 @@ export const reactComment = async (
                         reactionType: reactionType,
                         user: {
                           connect: {
-                            id: userId,
+                            id: session.user.id,
                           },
                         },
                       },
@@ -1144,7 +1077,7 @@ export const reactComment = async (
                       reactionType: reactionType,
                       user: {
                         connect: {
-                          id: userId,
+                          id: session.user.id,
                         },
                       },
                     },
@@ -1179,18 +1112,9 @@ export const reactComment = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "toGroupSharedPost") {
-    try {
+    if (postType === "toGroupSharedPost") {
       const isCommentReacted = await prisma.toGroupSharePost.findUnique({
         where: {
           id: postId,
@@ -1203,7 +1127,7 @@ export const reactComment = async (
             select: {
               reactions: {
                 where: {
-                  userId,
+                  userId: session.user.id,
                 },
                 select: {
                   id: true,
@@ -1235,7 +1159,7 @@ export const reactComment = async (
                         reactionType: reactionType,
                         user: {
                           connect: {
-                            id: userId,
+                            id: session.user.id,
                           },
                         },
                       },
@@ -1263,7 +1187,7 @@ export const reactComment = async (
                       reactionType: reactionType,
                       user: {
                         connect: {
-                          id: userId,
+                          id: session.user.id,
                         },
                       },
                     },
@@ -1298,30 +1222,33 @@ export const reactComment = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
+  } catch {
+    return {
+      success: true,
+      _gReactions: undefined,
+      reactionType: undefined,
+      message: "Failed ",
+    };
   }
 };
 
 export const reactReply = async (
-  userId: string,
-
   postType: PostType,
   postId: string,
+  mediaId: string | undefined,
   commentId: string | undefined,
   replyId: string | undefined,
+  replyReplyId: string | undefined,
   reactionType: ReactionType,
-
   prevState: State
 ) => {
-  if (postType === "oUserPost") {
-    try {
+  try {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Un aauthorized request");
+    }
+    if (postType === "oUserPost") {
       const isReplyReacted = await prisma.oUserPost.findUnique({
         where: {
           id: postId,
@@ -1340,7 +1267,7 @@ export const reactReply = async (
                   id: true,
                   reactions: {
                     where: {
-                      userId: userId,
+                      userId: session.user.id,
                     },
                     select: {
                       id: true,
@@ -1380,7 +1307,7 @@ export const reactReply = async (
                               reactionType: reactionType,
                               user: {
                                 connect: {
-                                  id: userId,
+                                  id: session.user.id,
                                 },
                               },
                             },
@@ -1417,7 +1344,7 @@ export const reactReply = async (
                             reactionType: reactionType,
                             user: {
                               connect: {
-                                id: userId,
+                                id: session.user.id,
                               },
                             },
                           },
@@ -1472,18 +1399,9 @@ export const reactReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "userSharePost") {
-    try {
+    if (postType === "userSharePost") {
       const isReplyReacted = await prisma.userSharePost.findUnique({
         where: {
           id: postId,
@@ -1502,7 +1420,7 @@ export const reactReply = async (
                   id: true,
                   reactions: {
                     where: {
-                      userId: userId,
+                      userId: session.user.id,
                     },
                     select: {
                       id: true,
@@ -1542,7 +1460,7 @@ export const reactReply = async (
                               reactionType: reactionType,
                               user: {
                                 connect: {
-                                  id: userId,
+                                  id: session.user.id,
                                 },
                               },
                             },
@@ -1579,7 +1497,7 @@ export const reactReply = async (
                             reactionType: reactionType,
                             user: {
                               connect: {
-                                id: userId,
+                                id: session.user.id,
                               },
                             },
                           },
@@ -1634,18 +1552,9 @@ export const reactReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "oPagePost") {
-    try {
+    if (postType === "oPagePost") {
       const isReplyReacted = await prisma.oPagePost.findUnique({
         where: {
           id: postId,
@@ -1664,7 +1573,7 @@ export const reactReply = async (
                   id: true,
                   reactions: {
                     where: {
-                      userId: userId,
+                      userId: session.user.id,
                     },
                     select: {
                       id: true,
@@ -1704,7 +1613,7 @@ export const reactReply = async (
                               reactionType: reactionType,
                               user: {
                                 connect: {
-                                  id: userId,
+                                  id: session.user.id,
                                 },
                               },
                             },
@@ -1741,7 +1650,7 @@ export const reactReply = async (
                             reactionType: reactionType,
                             user: {
                               connect: {
-                                id: userId,
+                                id: session.user.id,
                               },
                             },
                           },
@@ -1796,18 +1705,9 @@ export const reactReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "pageSharePost") {
-    try {
+    if (postType === "pageSharePost") {
       const isReplyReacted = await prisma.pageSharePost.findUnique({
         where: {
           id: postId,
@@ -1826,7 +1726,7 @@ export const reactReply = async (
                   id: true,
                   reactions: {
                     where: {
-                      userId: userId,
+                      userId: session.user.id,
                     },
                     select: {
                       id: true,
@@ -1866,7 +1766,7 @@ export const reactReply = async (
                               reactionType: reactionType,
                               user: {
                                 connect: {
-                                  id: userId,
+                                  id: session.user.id,
                                 },
                               },
                             },
@@ -1903,7 +1803,7 @@ export const reactReply = async (
                             reactionType: reactionType,
                             user: {
                               connect: {
-                                id: userId,
+                                id: session.user.id,
                               },
                             },
                           },
@@ -1958,18 +1858,9 @@ export const reactReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "oGroupPost") {
-    try {
+    if (postType === "oGroupPost") {
       const isReplyReacted = await prisma.oGroupPost.findUnique({
         where: {
           id: postId,
@@ -1988,7 +1879,7 @@ export const reactReply = async (
                   id: true,
                   reactions: {
                     where: {
-                      userId: userId,
+                      userId: session.user.id,
                     },
                     select: {
                       id: true,
@@ -2028,7 +1919,7 @@ export const reactReply = async (
                               reactionType: reactionType,
                               user: {
                                 connect: {
-                                  id: userId,
+                                  id: session.user.id,
                                 },
                               },
                             },
@@ -2065,7 +1956,7 @@ export const reactReply = async (
                             reactionType: reactionType,
                             user: {
                               connect: {
-                                id: userId,
+                                id: session.user.id,
                               },
                             },
                           },
@@ -2120,18 +2011,9 @@ export const reactReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "toGroupSharedPost") {
-    try {
+    if (postType === "toGroupSharedPost") {
       const isReplyReacted = await prisma.toGroupSharePost.findUnique({
         where: {
           id: postId,
@@ -2150,7 +2032,7 @@ export const reactReply = async (
                   id: true,
                   reactions: {
                     where: {
-                      userId: userId,
+                      userId: session.user.id,
                     },
                     select: {
                       id: true,
@@ -2190,7 +2072,7 @@ export const reactReply = async (
                               reactionType: reactionType,
                               user: {
                                 connect: {
-                                  id: userId,
+                                  id: session.user.id,
                                 },
                               },
                             },
@@ -2227,7 +2109,7 @@ export const reactReply = async (
                             reactionType: reactionType,
                             user: {
                               connect: {
-                                id: userId,
+                                id: session.user.id,
                               },
                             },
                           },
@@ -2282,30 +2164,33 @@ export const reactReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
+  } catch {
+    return {
+      success: true,
+      _gReactions: undefined,
+      reactionType: undefined,
+      message: "Failed ",
+    };
   }
 };
 
 export const reactReplyReply = async (
-  userId: string,
-
   postType: PostType,
   postId: string,
+  mediaId: string | undefined,
   commentId: string | undefined,
   replyId: string | undefined,
   replyReplyId: string | undefined,
   reactionType: ReactionType,
   prevState: State
 ) => {
-  if (postType === "oUserPost") {
-    try {
+  try {
+    const session = await auth();
+    if (!session?.user) {
+      throw new Error("Un aauthorized request");
+    }
+    if (postType === "oUserPost") {
       const isReplyReplyReacted = await prisma.oUserPost.findUnique({
         where: {
           id: postId,
@@ -2328,7 +2213,7 @@ export const reactReplyReply = async (
                     select: {
                       reactions: {
                         where: {
-                          userId: userId,
+                          userId: session.user.id,
                         },
                         select: {
                           id: true,
@@ -2377,7 +2262,7 @@ export const reactReplyReply = async (
                                     reactionType: reactionType,
                                     user: {
                                       connect: {
-                                        id: userId,
+                                        id: session.user.id,
                                       },
                                     },
                                   },
@@ -2423,7 +2308,7 @@ export const reactReplyReply = async (
                                   reactionType: reactionType,
                                   user: {
                                     connect: {
-                                      id: userId,
+                                      id: session.user.id,
                                     },
                                   },
                                 },
@@ -2464,17 +2349,8 @@ export const reactReplyReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
-  if (postType === "userSharePost") {
-    try {
+    if (postType === "userSharePost") {
       const isReplyReplyReacted = await prisma.userSharePost.findUnique({
         where: {
           id: postId,
@@ -2497,7 +2373,7 @@ export const reactReplyReply = async (
                     select: {
                       reactions: {
                         where: {
-                          userId: userId,
+                          userId: session.user.id,
                         },
                         select: {
                           id: true,
@@ -2546,7 +2422,7 @@ export const reactReplyReply = async (
                                     reactionType: reactionType,
                                     user: {
                                       connect: {
-                                        id: userId,
+                                        id: session.user.id,
                                       },
                                     },
                                   },
@@ -2592,7 +2468,7 @@ export const reactReplyReply = async (
                                   reactionType: reactionType,
                                   user: {
                                     connect: {
-                                      id: userId,
+                                      id: session.user.id,
                                     },
                                   },
                                 },
@@ -2633,18 +2509,9 @@ export const reactReplyReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "oPagePost") {
-    try {
+    if (postType === "oPagePost") {
       const isReplyReplyReacted = await prisma.oPagePost.findUnique({
         where: {
           id: postId,
@@ -2667,7 +2534,7 @@ export const reactReplyReply = async (
                     select: {
                       reactions: {
                         where: {
-                          userId: userId,
+                          userId: session.user.id,
                         },
                         select: {
                           id: true,
@@ -2716,7 +2583,7 @@ export const reactReplyReply = async (
                                     reactionType: reactionType,
                                     user: {
                                       connect: {
-                                        id: userId,
+                                        id: session.user.id,
                                       },
                                     },
                                   },
@@ -2762,7 +2629,7 @@ export const reactReplyReply = async (
                                   reactionType: reactionType,
                                   user: {
                                     connect: {
-                                      id: userId,
+                                      id: session.user.id,
                                     },
                                   },
                                 },
@@ -2803,18 +2670,9 @@ export const reactReplyReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
 
-  if (postType === "pageSharePost") {
-    try {
+    if (postType === "pageSharePost") {
       const isReplyReplyReacted = await prisma.pageSharePost.findUnique({
         where: {
           id: postId,
@@ -2837,7 +2695,7 @@ export const reactReplyReply = async (
                     select: {
                       reactions: {
                         where: {
-                          userId: userId,
+                          userId: session.user.id,
                         },
                         select: {
                           id: true,
@@ -2886,7 +2744,7 @@ export const reactReplyReply = async (
                                     reactionType: reactionType,
                                     user: {
                                       connect: {
-                                        id: userId,
+                                        id: session.user.id,
                                       },
                                     },
                                   },
@@ -2932,7 +2790,7 @@ export const reactReplyReply = async (
                                   reactionType: reactionType,
                                   user: {
                                     connect: {
-                                      id: userId,
+                                      id: session.user.id,
                                     },
                                   },
                                 },
@@ -2973,17 +2831,9 @@ export const reactReplyReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
-  if (postType === "oGroupPost") {
-    try {
+
+    if (postType === "oGroupPost") {
       const isReplyReplyReacted = await prisma.oGroupPost.findUnique({
         where: {
           id: postId,
@@ -3006,7 +2856,7 @@ export const reactReplyReply = async (
                     select: {
                       reactions: {
                         where: {
-                          userId: userId,
+                          userId: session.user.id,
                         },
                         select: {
                           id: true,
@@ -3055,7 +2905,7 @@ export const reactReplyReply = async (
                                     reactionType: reactionType,
                                     user: {
                                       connect: {
-                                        id: userId,
+                                        id: session.user.id,
                                       },
                                     },
                                   },
@@ -3101,7 +2951,7 @@ export const reactReplyReply = async (
                                   reactionType: reactionType,
                                   user: {
                                     connect: {
-                                      id: userId,
+                                      id: session.user.id,
                                     },
                                   },
                                 },
@@ -3142,17 +2992,8 @@ export const reactReplyReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
-  }
-  if (postType === "toGroupSharedPost") {
-    try {
+    if (postType === "toGroupSharedPost") {
       const isReplyReplyReacted = await prisma.toGroupSharePost.findUnique({
         where: {
           id: postId,
@@ -3175,7 +3016,7 @@ export const reactReplyReply = async (
                     select: {
                       reactions: {
                         where: {
-                          userId: userId,
+                          userId: session.user.id,
                         },
                         select: {
                           id: true,
@@ -3224,7 +3065,7 @@ export const reactReplyReply = async (
                                     reactionType: reactionType,
                                     user: {
                                       connect: {
-                                        id: userId,
+                                        id: session.user.id,
                                       },
                                     },
                                   },
@@ -3270,7 +3111,7 @@ export const reactReplyReply = async (
                                   reactionType: reactionType,
                                   user: {
                                     connect: {
-                                      id: userId,
+                                      id: session.user.id,
                                     },
                                   },
                                 },
@@ -3311,13 +3152,13 @@ export const reactReplyReply = async (
         reactionType,
         message: "Success ",
       };
-    } catch (error) {
-      return {
-        success: true,
-        _gReactions: [],
-        reactionType: undefined,
-        message: "Failed ",
-      };
     }
+  } catch {
+    return {
+      success: true,
+      _gReactions: undefined,
+      reactionType: undefined,
+      message: "Failed ",
+    };
   }
 };

@@ -1,6 +1,15 @@
 import { FeedsType } from "@/app/api/feeder/[page]/lib";
+import { ReactionType } from "@/generated/prisma/client";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+type updateFeedWithReactPayLoadType = {
+  gReactions:
+    | {
+        reactionType: ReactionType;
+        count: number;
+      }[]
+    | undefined;
+  reactionType: ReactionType | undefined;
+};
 export type FeedResponseType = {
   feeds: FeedsType[];
 };
@@ -28,9 +37,14 @@ export const feedSlice = createSlice({
     addFeed: (state, action: PayloadAction<FeedsType | undefined>) => {
       state.feeds.feeds?.unshift(action.payload!);
     },
+
+    updateFeedWithReact: (
+      state,
+      action: PayloadAction<updateFeedWithReactPayLoadType | undefined>
+    ) => {},
   },
 });
 
-export const { setFeeds, addFeed } = feedSlice.actions;
+export const { setFeeds, addFeed, updateFeedWithReact } = feedSlice.actions;
 
 export default feedSlice.reducer;

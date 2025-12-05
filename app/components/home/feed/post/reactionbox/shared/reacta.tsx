@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { State } from "@/app/actions/react/types";
-import { ReactionType } from "@/app/generated/prisma";
+import { updateFeedWithReact } from "@/app/store/slices/feed/feed";
+import { ReactionType } from "@/generated/prisma/client";
 import Image from "next/image";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function ReactA({
   actionOn,
@@ -10,8 +13,9 @@ export default function ReactA({
   actionOn: (
     reactionType: ReactionType,
     prevState: State | undefined
-  ) => Promise<State> | undefined;
+  ) => Promise<State | undefined>;
 }) {
+  const dispatch = useDispatch();
   const initialState: State = {
     _gReactions: undefined,
     message: undefined,
@@ -67,6 +71,117 @@ export default function ReactA({
     initialState,
     undefined
   );
+
+  useEffect(() => {
+    if (stateLike?.success) {
+      dispatch(
+        updateFeedWithReact({
+          gReactions: stateLike?._gReactions,
+          reactionType: stateLike?.reactionType,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    stateLike?._gReactions,
+    stateLike?.reactionType,
+    stateLike?.success,
+  ]);
+
+  useEffect(() => {
+    if (stateLove?.success) {
+      dispatch(
+        updateFeedWithReact({
+          gReactions: stateLove?._gReactions,
+          reactionType: stateLove?.reactionType,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    stateLove?._gReactions,
+    stateLove?.reactionType,
+    stateLove?.success,
+  ]);
+  useEffect(() => {
+    if (stateCare?.success) {
+      dispatch(
+        updateFeedWithReact({
+          gReactions: stateCare?._gReactions,
+          reactionType: stateCare?.reactionType,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    stateCare?._gReactions,
+    stateCare?.reactionType,
+    stateCare?.success,
+  ]);
+
+  useEffect(() => {
+    if (stateHaha?.success) {
+      dispatch(
+        updateFeedWithReact({
+          gReactions: stateHaha?._gReactions,
+          reactionType: stateHaha?.reactionType,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    stateHaha?._gReactions,
+    stateHaha?.reactionType,
+    stateHaha?.success,
+  ]);
+
+  useEffect(() => {
+    if (stateWow?.success) {
+      dispatch(
+        updateFeedWithReact({
+          gReactions: stateWow?._gReactions,
+          reactionType: stateWow?.reactionType,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    stateWow?._gReactions,
+    stateWow?.reactionType,
+    stateWow?.success,
+  ]);
+
+  useEffect(() => {
+    if (stateSad?.success) {
+      dispatch(
+        updateFeedWithReact({
+          gReactions: stateSad?._gReactions,
+          reactionType: stateSad?.reactionType,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    stateSad?._gReactions,
+    stateSad?.reactionType,
+    stateSad?.success,
+  ]);
+
+  useEffect(() => {
+    if (stateAngry?.success) {
+      dispatch(
+        updateFeedWithReact({
+          gReactions: stateAngry?._gReactions,
+          reactionType: stateAngry?.reactionType,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    stateAngry?._gReactions,
+    stateAngry?.reactionType,
+    stateAngry?.success,
+  ]);
 
   return (
     <form className="flex items-center">
