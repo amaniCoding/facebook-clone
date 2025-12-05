@@ -1,7 +1,7 @@
 import prisma from "@/app/libs/prisma";
 import { users } from "../../dummy";
-import { Gender } from "@/app/generated/prisma";
 import bcrypt from "bcryptjs";
+import { Gender } from "@/generated/prisma/client";
 
 export function _seeder() {
   const up1 = Promise.all(
@@ -28,6 +28,7 @@ export function _seeder() {
     data: {
       firstName: "Amanuel",
       lastName: "Ferede",
+
       birthDate: new Date(),
       gender: "male",
       email: "amanuelfrm@gmail.com",
