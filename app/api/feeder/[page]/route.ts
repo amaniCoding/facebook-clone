@@ -13,7 +13,7 @@ export async function GET(
   try {
     const session = await auth();
     if (!session?.user) {
-      return new Response("Unauthorized", { status: 401 });
+      return new Response("Un authorized", { status: 401 });
     }
     const { page } = await params;
 
