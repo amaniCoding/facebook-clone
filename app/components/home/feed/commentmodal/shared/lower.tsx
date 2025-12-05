@@ -33,7 +33,9 @@ export default function Left({
   };
   return (
     <div className="flex items-center justify-between space-x-2 text-black/40 text-sm font-semibold">
-      {toShowReactionBox && <ReactionBox />}
+      {toShowReactionBox && (
+        <ReactionBox keepShowing={keepShowing} hideShowing={hideShowing} />
+      )}
       <p>2hrs</p>
       <p onMouseEnter={showReactionBox} onMouseLeave={hideReactionBox}>
         Like

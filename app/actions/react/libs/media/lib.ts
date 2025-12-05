@@ -18,7 +18,7 @@ export const reactMedia = async (
   try {
     const session = await auth();
     if (!session?.user) {
-      throw new Error("Un aauthorized request");
+      throw new Error("Un authorized request");
     }
     if (postType === "oUserPost") {
       const isMediaReacted = await prisma.oUserPost.findUnique({
@@ -370,7 +370,7 @@ export const reactMediaComment = async (
   try {
     const session = await auth();
     if (!session?.user) {
-      throw new Error("Un aauthorized request");
+      throw new Error("Un authorized request");
     }
     if (postType === "oUserPost") {
       const isMediaCommentReacted = await prisma.oUserPost.findUnique({
@@ -803,7 +803,7 @@ export const reactMediaReply = async (
   try {
     const session = await auth();
     if (!session?.user) {
-      throw new Error("Un aauthorized request");
+      throw new Error("Un authorized request");
     }
     if (postType === "oUserPost") {
       const isReplyMediaReacted = await prisma.oUserPost.findUnique({
@@ -1414,7 +1414,7 @@ export const reactMediaReplyReply = async (
   try {
     const session = await auth();
     if (!session?.user) {
-      throw new Error("Un aauthorized request");
+      throw new Error("Un authorized request");
     }
     if (postType === "oUserPost") {
       const isMediaReplyReplyReacted = await prisma.oUserPost.findUnique({

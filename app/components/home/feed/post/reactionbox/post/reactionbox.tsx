@@ -11,7 +11,7 @@ import ReactA from "../shared/reacta";
 
 import { State } from "@/app/actions/react/types";
 import { PostType, ReactionType } from "@/generated/prisma/client";
-import { _react } from "@/app/actions/react/react";
+import { _reactA } from "@/app/actions/react/react";
 export default function ReactionBox({
   post,
   keepShowing,
@@ -27,7 +27,7 @@ export default function ReactionBox({
 }) {
   if (post!.type === "oUserPost") {
     const _post = post!.post as OUserPost;
-    const x = _react("post", "itSelf");
+    const x = _reactA("post", "itSelf");
 
     const z = x!.bind(
       null,
@@ -56,7 +56,7 @@ export default function ReactionBox({
   }
   if (post!.type === "userSharePost") {
     const _post = post!.post as UserSharePost;
-    const x = _react("post", "itSelf");
+    const x = _reactA("post", "itSelf");
     const z = x!.bind(
       null,
       "userSharePost",
@@ -85,7 +85,7 @@ export default function ReactionBox({
 
   if (post!.type === "oPagePost") {
     const _post = post!.post as OPagePost;
-    const x = _react("post", "itSelf");
+    const x = _reactA("post", "itSelf");
 
     const z = x!.bind(
       null,
@@ -115,7 +115,7 @@ export default function ReactionBox({
 
   if (post!.type === "pageSharePost") {
     const _post = post!.post as PageSharePost;
-    const x = _react("post", "itSelf");
+    const x = _reactA("post", "itSelf");
 
     const z = x!.bind(
       null,
@@ -145,7 +145,7 @@ export default function ReactionBox({
 
   if (post!.type === "oGroupPost") {
     const _post = post!.post as OGroupPost;
-    const x = _react("post", "itSelf");
+    const x = _reactA("post", "itSelf");
 
     const z = x!.bind(
       null,
@@ -175,7 +175,7 @@ export default function ReactionBox({
 
   if (post!.type === "toGroupSharedPost") {
     const _post = post!.post as ToGroupSharedPost;
-    const x = _react("post", "itSelf");
+    const x = _reactA("post", "itSelf");
     const z = x!.bind(
       null,
       "toGroupSharedPost",

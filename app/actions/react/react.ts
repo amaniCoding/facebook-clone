@@ -1,5 +1,3 @@
-"use server";
-
 import {
   reactMedia,
   reactMediaComment,
@@ -7,13 +5,13 @@ import {
   reactMediaReplyReply,
 } from "./libs/media/lib";
 import {
-  reactPost,
   reactComment,
+  reactPost,
   reactReply,
   reactReplyReply,
 } from "./libs/post/lib";
 
-export function _react(
+export function _reactA(
   refFrom: "post" | "media",
   type: "itSelf" | "comment" | "reply" | "replyReply"
 ) {
