@@ -30,7 +30,9 @@ export default function Lower() {
   };
   return (
     <div className="flex items-center justify-between relative mx-1.5">
-      {toShowReactionBox && <ReactionBox />}
+      {toShowReactionBox && (
+        <ReactionBox keepShowing={keepShowing} hideShowing={hideShowing} />
+      )}
       <div
         className="flex items-center justify-center rounded-md grow cursor-pointer hover:bg-gray-100"
         onMouseEnter={showReactionBox}
