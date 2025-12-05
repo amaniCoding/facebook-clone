@@ -134,7 +134,8 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType,
+            postType: "oUserPost" as PostType,
+
             postId: reply.id,
             commentId: post.comments[0].id,
             replyId: post.comments[0].replies[0].id,
@@ -225,7 +226,8 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType,
+            postType: "userSharePost" as PostType,
+
             postId: reply.id,
             commentId: post.comments[0].id,
             replyId: post.comments[0].replies[0].id,
@@ -315,7 +317,8 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType,
+            postType: "oPagePost" as PostType,
+
             postId: reply.id,
             commentId: post.comments[0].id,
             replyId: post.comments[0].replies[0].id,
@@ -405,7 +408,8 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType,
+            postType: "pageSharePost" as PostType,
+
             postId: reply.id,
             commentId: post.comments[0].id,
             replyId: post.comments[0].replies[0].id,
@@ -495,7 +499,8 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType,
+            postType: "oGroupPost" as PostType,
+
             postId: reply.id,
             commentId: post.comments[0].id,
             replyId: post.comments[0].replies[0].id,
@@ -585,7 +590,8 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType,
+            postType: "toGroupSharedPost" as PostType,
+
             postId: reply.id,
             commentId: post.comments[0].id,
             replyId: post.comments[0].replies[0].id,
@@ -686,7 +692,7 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType: "oGroupPost",
+            postType: "oUserPost" as PostType,
             postId: post.id,
             commentId: post.medias[0].comments[0].id,
             mediaId: post.medias[0].id,
@@ -784,7 +790,7 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType: "oGroupPost",
+            postType: "oPagePost" as PostType,
             postId: post.id,
             commentId: post.medias[0].comments[0].id,
             mediaId: post.medias[0].id,
@@ -883,7 +889,7 @@ export const getReplies = async (
         async (reply) => {
           return {
             ...reply,
-            postType: "oGroupPost",
+            postType: "oGroupPost" as PostType,
             postId: post.id,
             commentId: post.medias[0].comments[0].id,
             mediaId: post.medias[0].id,

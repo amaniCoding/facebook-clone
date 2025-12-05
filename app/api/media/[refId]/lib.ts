@@ -111,7 +111,8 @@ export const getPostMedias = async (
     const updatedMedias = post?.medias.map(async (media) => {
       return {
         ...media,
-        postType,
+        postType: "oUserPost" as PostType,
+
         postId: post.id,
         _gReactions: await prepareGReactions(media.id),
         _isReacted: await isReacted(userId, media.id),
@@ -184,7 +185,8 @@ export const getPostMedias = async (
     const updatedMedias = post?.medias.map(async (media) => {
       return {
         ...media,
-        postType,
+        postType: "oPagePost" as PostType,
+
         postId: post.id,
         _gReactions: await prepareGReactions(media.id),
         _isReacted: await isReacted(userId, media.id),
@@ -257,7 +259,8 @@ export const getPostMedias = async (
     const updatedMedias = post?.medias.map(async (media) => {
       return {
         ...media,
-        postType,
+        postType: "oGroupPost" as PostType,
+
         postId: post.id,
         _gReactions: await prepareGReactions(media.id),
         _isReacted: await isReacted(userId, media.id),
