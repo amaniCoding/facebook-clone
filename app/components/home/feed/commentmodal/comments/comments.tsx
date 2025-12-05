@@ -42,7 +42,7 @@ export default function Comments() {
   ) => {
     if (previousPageData && previousPageData.comments.length === 0) return null;
 
-    return `/api/comments/post-dash-${getPostId}/dash-dash-dash-dash/${
+    return `/api/comments/post-${currentPostType}-${getPostId}/dash-dash-dash-dash/${
       pageIndex + 1
     }/`;
   };

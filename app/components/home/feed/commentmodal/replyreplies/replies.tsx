@@ -48,7 +48,7 @@ export default function Replies({
   const { mutate } = useSWRConfig();
 
   const { data, error, isLoading } = useSWR<ReplyData>(null, fetcher);
-  const replies = data?.replies;
+  const replies = [...data!.replies, ...data!.replies];
   const isReachingEnd =
     data?.replies &&
     data.replies[data.replies.length - 1]?.replies.length < PAGE_SIZE;
@@ -57,7 +57,7 @@ export default function Replies({
   if (isLoading) return <CommentsSkeleton />;
 
   const viewAllReplies = async (commentId: string, replyId: string) => {
-    if (isReachingEnd) {
+    if (!isReachingEnd) {
       await mutate(
         `/api/replies/post-${currentPostType}-${getPostId()!}-dash-${commentId}-${replyId}-${
           page + 1
