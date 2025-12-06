@@ -1,19 +1,17 @@
 "use client";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Post from "../post/post";
 import CommentModal from "../commentmodal/comment-modal";
-import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
+import { useAppSelector } from "@/app/store/hooks";
 
 import ReactionModal from "../reactionmodal/reactionmodal";
-import useSWRInfinite, { SWRInfiniteKeyLoader } from "swr/infinite";
+import useSWRInfinite from "swr/infinite";
 import { FeedsType } from "@/app/api/feeder/[page]/lib";
 import FeedItemSkeleton from "@/app/components/skeletons/feed";
-import { setFeeds } from "@/app/store/slices/feed/feed";
 interface FeedsPage {
   feeds: FeedsType[];
 }
 export default function Feeder() {
-  const dispatch = useAppDispatch();
   const isCommentModalOpen = useAppSelector(
     (state) => state.commentModal.isOpen
   );
@@ -21,15 +19,17 @@ export default function Feeder() {
   const isReactionModalOpen = useAppSelector(
     (state) => state.reactionModal.isOpen
   );
-  const feedsState = useAppSelector((state) => state.feed.feeds.feeds);
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const fetcher = async (url: string): Promise<FeedsPage> => {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error("An error occurred while fetching the data.");
+    }
+    return res.json();
+  };
   const PAGE_SIZE = 10;
 
-  const getKey: SWRInfiniteKeyLoader<FeedsPage, string | null> = (
-    pageIndex: number,
-    previousPageData: FeedsPage | null
-  ) => {
+  const getKey = (pageIndex: number, previousPageData: FeedsPage | null) => {
     if (previousPageData && previousPageData.feeds.length === 0) return null;
 
     return `/api/feeder/${pageIndex + 1}/`;
@@ -38,9 +38,11 @@ export default function Feeder() {
   const { data, error, size, setSize, isLoading, isValidating } =
     useSWRInfinite<FeedsPage>(getKey, fetcher);
 
-  const feeds: FeedsType[] = useMemo(() => {
-    return data ? data.flatMap((page) => page.feeds) : [];
-  }, [data]);
+  // const feeds: FeedsType[] = useMemo(() => {
+  //   return data ? data.flatMap((page) => page.feeds) : [];
+  // }, [data]);
+
+  const feeds = data ? data.flatMap((page) => page.feeds) : [];
 
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -48,14 +50,6 @@ export default function Feeder() {
     isLoading ||
     (isValidating && data && typeof data[size - 1] === "undefined");
   const isReachingEnd = data && data[data.length - 1]?.feeds.length < PAGE_SIZE;
-
-  useEffect(() => {
-    dispatch(
-      setFeeds({
-        feeds: feeds,
-      })
-    );
-  }, [dispatch, feeds]);
 
   useEffect(() => {
     if (isReachingEnd || !observerRef.current) return;
@@ -78,7 +72,7 @@ export default function Feeder() {
   if (isLoading) return <FeedItemSkeleton />;
   return (
     <>
-      {feedsState!.map((post, index) => (
+      {feeds!.map((post, index) => (
         <Post key={index} post={post} />
       ))}
 
