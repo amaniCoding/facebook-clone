@@ -6,7 +6,7 @@ import {
   UserSharePost,
   PageSharePost,
 } from "@/app/api/feeder/[page]/lib";
-import { PostType } from "@/generated/prisma/browser";
+import { PostType } from "@/app/generated/prisma/client";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 

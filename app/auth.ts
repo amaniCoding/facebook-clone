@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthConfig } from "next-auth";
+import NextAuth, { CredentialsSignin, NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { verifyPassword } from "./libs/auth";
 import prisma from "./libs/prisma";
@@ -10,7 +10,7 @@ export const authConfig: NextAuthConfig = {
 
       async authorize(credentials) {
         if (!credentials) {
-          return null;
+          throw new CredentialsSignin("Invalid credentials");
         }
         if (credentials.isNewUser) {
           return {
@@ -30,7 +30,7 @@ export const authConfig: NextAuthConfig = {
           });
 
           if (!user) {
-            return null;
+            throw new CredentialsSignin("Invalid credentials");
           }
 
           const isValid = await verifyPassword(
@@ -49,7 +49,7 @@ export const authConfig: NextAuthConfig = {
                   : "/brands/female-d.jpg",
             };
           }
-          return null;
+          throw new CredentialsSignin("Invalid credentials");
         } catch {
           throw new Error("Back");
         }
