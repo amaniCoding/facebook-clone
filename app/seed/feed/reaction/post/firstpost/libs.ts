@@ -1,7 +1,7 @@
-import { ReactionType } from "@/app/generated/prisma";
 import prisma from "@/app/libs/prisma";
 import { getRandomReactionType } from "@/app/seed/lib";
 import { getRandomUser } from "@/app/seed/libs";
+import { ReactionType } from "@/generated/prisma/client";
 
 export async function _seeder() {
   const user = await getRandomUser();
