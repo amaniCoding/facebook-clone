@@ -75,7 +75,7 @@ export default function MyApp({
         );
       });
     };
-  }, [dispatch, isOnline]);
+  }, [dispatch, networkNotification]);
   useEffect(() => {
     if (isPostModalOpened || isCommentModalOpened || isReactionModalOpened) {
       document.body.style.overflowY = "hidden";

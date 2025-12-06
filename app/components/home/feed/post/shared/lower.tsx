@@ -14,7 +14,7 @@ import {
   UserSharePost,
 } from "@/app/api/feeder/[page]/lib";
 import ReactionBox from "../reactionbox/post/reactionbox";
-import { PostType } from "@/generated/prisma/client";
+import { PostType } from "@/app/generated/prisma/client";
 
 type TypeProps = {
   post: {
