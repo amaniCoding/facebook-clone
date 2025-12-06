@@ -1,12 +1,12 @@
 import prisma from "@/app/libs/prisma";
 
-import { ReactionType } from "@/app/generated/prisma";
 import {
   dummyComments,
   dummyReplies,
   dummyReplyReplies,
   reactionTypes,
 } from "./dummy";
+import { ReactionType } from "@/generated/prisma/client";
 const postContentOption = ["contentonly", "mediasonly", "both"];
 
 const getRandomPost = async (
