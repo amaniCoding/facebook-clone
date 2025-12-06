@@ -1,6 +1,6 @@
 import prisma from "@/app/libs/prisma";
 import { dummyTexts } from "./dummy";
-import { MediaOwnerType, MediaType } from "@/generated/prisma/client";
+import { MediaOwnerType, MediaType } from "../generated/prisma/client";
 
 export const sharedPostTypes = ["user", "page", "group", "media"];
 
