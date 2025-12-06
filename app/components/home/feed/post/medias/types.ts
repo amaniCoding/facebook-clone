@@ -1,4 +1,4 @@
-import { MediaType } from "@/app/generated/prisma";
+import { MediaType } from "@/generated/prisma/client";
 
 export type MediaPropType = {
   medias:
