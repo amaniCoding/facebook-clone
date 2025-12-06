@@ -36,12 +36,11 @@ const isReacted = async (
           isReacted: true,
           reactionType: isReactedByMe.reactionType,
         };
-      } else {
-        return {
-          isReacted: false,
-          reactionType: undefined,
-        };
       }
+      return {
+        isReacted: false,
+        reactionType: undefined,
+      };
     }
     case "userSharePost": {
       const isReactedByMe = await prisma.reaction.findFirst({
@@ -60,12 +59,11 @@ const isReacted = async (
           isReacted: true,
           reactionType: isReactedByMe.reactionType,
         };
-      } else {
-        return {
-          isReacted: false,
-          reactionType: undefined,
-        };
       }
+      return {
+        isReacted: false,
+        reactionType: undefined,
+      };
     }
 
     case "oPagePost": {
@@ -85,12 +83,11 @@ const isReacted = async (
           isReacted: true,
           reactionType: isReactedByMe.reactionType,
         };
-      } else {
-        return {
-          isReacted: false,
-          reactionType: undefined,
-        };
       }
+      return {
+        isReacted: false,
+        reactionType: undefined,
+      };
     }
 
     case "pageSharePost": {
@@ -110,12 +107,11 @@ const isReacted = async (
           isReacted: true,
           reactionType: isReactedByMe.reactionType,
         };
-      } else {
-        return {
-          isReacted: false,
-          reactionType: undefined,
-        };
       }
+      return {
+        isReacted: false,
+        reactionType: undefined,
+      };
     }
 
     case "oGroupPost": {
@@ -135,12 +131,11 @@ const isReacted = async (
           isReacted: true,
           reactionType: isReactedByMe.reactionType,
         };
-      } else {
-        return {
-          isReacted: false,
-          reactionType: undefined,
-        };
       }
+      return {
+        isReacted: false,
+        reactionType: undefined,
+      };
     }
 
     case "toGroupSharedPost": {
@@ -160,12 +155,11 @@ const isReacted = async (
           isReacted: true,
           reactionType: isReactedByMe.reactionType,
         };
-      } else {
-        return {
-          isReacted: false,
-          reactionType: undefined,
-        };
       }
+      return {
+        isReacted: false,
+        reactionType: undefined,
+      };
     }
     default:
       break;

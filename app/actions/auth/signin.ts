@@ -18,6 +18,9 @@ export async function login(prevState: string | undefined, formData: FormData) {
       switch (error.type) {
         case "CredentialsSignin":
           return "The email or mobile number you entered is not connected to an account. Find your account and log in";
+        case "CallbackRouteError":
+          return "The email or mobile number you entered is not connected to an account. Find your account and log in";
+
         default:
           return "Something went wrong";
       }

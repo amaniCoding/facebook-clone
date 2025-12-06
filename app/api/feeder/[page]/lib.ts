@@ -13,136 +13,148 @@ const isReacted = async (
   id: string | undefined
 ) => {
   switch (type) {
-    case "oUserPost":
-      {
-        const isReactedByMe = await prisma.reaction.findFirst({
-          where: {
-            userPostId: id,
-            userId: userId,
-          },
-          select: {
-            userPostId: true,
-            reactionType: true,
-          },
-        });
+    case "oUserPost": {
+      const isReactedByMe = await prisma.reaction.findFirst({
+        where: {
+          userPostId: id,
+          userId: userId,
+        },
+        select: {
+          userPostId: true,
+          reactionType: true,
+        },
+      });
 
-        if (isReactedByMe?.userPostId) {
-          return {
-            isReacted: true,
-            reactionType: isReactedByMe.reactionType,
-          };
-        }
+      if (isReactedByMe?.userPostId) {
+        return {
+          isReacted: true,
+          reactionType: isReactedByMe.reactionType,
+        };
       }
-      break;
-    case "userSharePost":
-      {
-        const isReactedByMe = await prisma.reaction.findFirst({
-          where: {
-            userSharePostId: id,
-            userId: userId,
-          },
-          select: {
-            userSharePostId: true,
-            reactionType: true,
-          },
-        });
+      return {
+        isReacted: false,
+        reactionType: false,
+      };
+    }
+    case "userSharePost": {
+      const isReactedByMe = await prisma.reaction.findFirst({
+        where: {
+          userSharePostId: id,
+          userId: userId,
+        },
+        select: {
+          userSharePostId: true,
+          reactionType: true,
+        },
+      });
 
-        if (isReactedByMe?.userSharePostId) {
-          return {
-            isReacted: true,
-            reactionType: isReactedByMe.reactionType,
-          };
-        }
+      if (isReactedByMe?.userSharePostId) {
+        return {
+          isReacted: true,
+          reactionType: isReactedByMe.reactionType,
+        };
       }
-      break;
+      return {
+        isReacted: false,
+        reactionType: false,
+      };
+    }
 
-    case "oPagePost":
-      {
-        const isReactedByMe = await prisma.reaction.findFirst({
-          where: {
-            pagePostId: id,
-            userId: userId,
-          },
-          select: {
-            pagePostId: true,
-            reactionType: true,
-          },
-        });
+    case "oPagePost": {
+      const isReactedByMe = await prisma.reaction.findFirst({
+        where: {
+          pagePostId: id,
+          userId: userId,
+        },
+        select: {
+          pagePostId: true,
+          reactionType: true,
+        },
+      });
 
-        if (isReactedByMe?.pagePostId) {
-          return {
-            isReacted: true,
-            reactionType: isReactedByMe.reactionType,
-          };
-        }
+      if (isReactedByMe?.pagePostId) {
+        return {
+          isReacted: true,
+          reactionType: isReactedByMe.reactionType,
+        };
       }
-      break;
+      return {
+        isReacted: false,
+        reactionType: false,
+      };
+    }
 
-    case "pageSharePost":
-      {
-        const isReactedByMe = await prisma.reaction.findFirst({
-          where: {
-            pageSharePostId: id,
-            userId: userId,
-          },
-          select: {
-            pageSharePostId: true,
-            reactionType: true,
-          },
-        });
+    case "pageSharePost": {
+      const isReactedByMe = await prisma.reaction.findFirst({
+        where: {
+          pageSharePostId: id,
+          userId: userId,
+        },
+        select: {
+          pageSharePostId: true,
+          reactionType: true,
+        },
+      });
 
-        if (isReactedByMe?.pageSharePostId) {
-          return {
-            isReacted: true,
-            reactionType: isReactedByMe.reactionType,
-          };
-        }
+      if (isReactedByMe?.pageSharePostId) {
+        return {
+          isReacted: true,
+          reactionType: isReactedByMe.reactionType,
+        };
       }
-      break;
+      return {
+        isReacted: false,
+        reactionType: false,
+      };
+    }
 
-    case "oGroupPost":
-      {
-        const isReactedByMe = await prisma.reaction.findFirst({
-          where: {
-            groupPostId: id,
-            userId: userId,
-          },
-          select: {
-            groupPostId: true,
-            reactionType: true,
-          },
-        });
+    case "oGroupPost": {
+      const isReactedByMe = await prisma.reaction.findFirst({
+        where: {
+          groupPostId: id,
+          userId: userId,
+        },
+        select: {
+          groupPostId: true,
+          reactionType: true,
+        },
+      });
 
-        if (isReactedByMe?.groupPostId) {
-          return {
-            isReacted: true,
-            reactionType: isReactedByMe.reactionType,
-          };
-        }
+      if (isReactedByMe?.groupPostId) {
+        return {
+          isReacted: true,
+          reactionType: isReactedByMe.reactionType,
+        };
       }
-      break;
+      return {
+        isReacted: false,
+        reactionType: false,
+      };
+    }
 
-    case "toGroupSharedPost":
-      {
-        const isReactedByMe = await prisma.reaction.findFirst({
-          where: {
-            toGroupSharePostId: id,
-            userId: userId,
-          },
-          select: {
-            toGroupSharePostId: true,
-            reactionType: true,
-          },
-        });
+    case "toGroupSharedPost": {
+      const isReactedByMe = await prisma.reaction.findFirst({
+        where: {
+          toGroupSharePostId: id,
+          userId: userId,
+        },
+        select: {
+          toGroupSharePostId: true,
+          reactionType: true,
+        },
+      });
 
-        if (isReactedByMe?.toGroupSharePostId) {
-          return {
-            isReacted: true,
-            reactionType: isReactedByMe.reactionType,
-          };
-        }
+      if (isReactedByMe?.toGroupSharePostId) {
+        return {
+          isReacted: true,
+          reactionType: isReactedByMe.reactionType,
+        };
       }
-      break;
+      return {
+        isReacted: false,
+        reactionType: false,
+      };
+    }
     default:
       break;
   }
@@ -253,26 +265,24 @@ const prepareGReactions = async (
           };
         });
       }
-      case "toGroupSharedPost":
-        {
-          const r = await prisma.reaction.groupBy({
-            by: ["reactionType"],
-            _count: {
-              reactionType: true,
-            },
-            where: {
-              toGroupSharePostId: id,
-            },
-          });
+      case "toGroupSharedPost": {
+        const r = await prisma.reaction.groupBy({
+          by: ["reactionType"],
+          _count: {
+            reactionType: true,
+          },
+          where: {
+            toGroupSharePostId: id,
+          },
+        });
 
-          return r.map((rxn) => {
-            return {
-              reactionType: rxn.reactionType,
-              count: rxn._count.reactionType,
-            };
-          });
-        }
-        break;
+        return r.map((rxn) => {
+          return {
+            reactionType: rxn.reactionType,
+            count: rxn._count.reactionType,
+          };
+        });
+      }
 
       default:
         break;
