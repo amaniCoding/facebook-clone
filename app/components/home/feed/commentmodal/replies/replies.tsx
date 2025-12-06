@@ -53,7 +53,6 @@ export default function Replies({
     data.replies[data.replies.length - 1]?.replies.length < PAGE_SIZE;
 
   if (error) return <div>Failed to load posts</div>;
-  if (isLoading) return <CommentsSkeleton />;
 
   const viewAllReplies = async (commentId: string) => {
     if (!isReachingEnd) {
@@ -90,6 +89,7 @@ export default function Replies({
           />
         );
       })}
+      {isLoading && <CommentsSkeleton />}
     </div>
   );
 }

@@ -54,7 +54,6 @@ export default function Replies({
     data.replies[data.replies.length - 1]?.replies.length < PAGE_SIZE;
 
   if (error) return <div>Failed to load replies</div>;
-  if (isLoading) return <CommentsSkeleton />;
 
   const viewAllReplies = async (commentId: string, replyId: string) => {
     if (!isReachingEnd) {
@@ -84,6 +83,7 @@ export default function Replies({
           gReactions.length > 3 ? gReactions.slice(0, 3) : gReactions;
         return <Reply key={index} reply={reply} gReactions={newGReactions} />;
       })}
+      {isLoading && <CommentsSkeleton />}
     </div>
   );
 }

@@ -80,7 +80,6 @@ export default function Comments() {
   }, [size, setSize, isReachingEnd, isLoadingMore]);
 
   if (error) return <div>Failed to load posts</div>;
-  if (isLoading) return <CommentsSkeleton />;
 
   return (
     <>
@@ -92,14 +91,10 @@ export default function Comments() {
           gReactions.length > 3 ? gReactions.slice(0, 3) : gReactions;
 
         return (
-          <Comment
-            key={index}
-            comment={comment}
-            gReactions={newGReactions}
-            ref={observerRef}
-          />
+          <Comment key={index} comment={comment} gReactions={newGReactions} />
         );
       })}
+      <div ref={observerRef}>{isLoading && <CommentsSkeleton />}</div>
     </>
   );
 }
