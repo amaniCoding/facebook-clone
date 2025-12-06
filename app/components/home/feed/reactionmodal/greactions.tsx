@@ -1,7 +1,7 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { udpateCurrentReactionType } from "@/app/store/slices/modal/reaction";
-import { ReactionType } from "@/generated/prisma/client";
+import { ReactionType } from "@/app/generated/prisma/client";
 import Image from "next/image";
 export default function Greactions({
   gReactions,

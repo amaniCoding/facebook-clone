@@ -6,7 +6,7 @@ import {
   dummyReplyReplies,
   reactionTypes,
 } from "./dummy";
-import { ReactionType } from "@/generated/prisma/client";
+import { ReactionType } from "@/app/generated/prisma/client";
 const postContentOption = ["contentonly", "mediasonly", "both"];
 
 const getRandomPost = async (

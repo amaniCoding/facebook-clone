@@ -10,7 +10,7 @@ import {
   UserSharePost,
 } from "@/app/api/feeder/[page]/lib";
 import { showReactionModal } from "@/app/store/slices/modal/reaction";
-import { PostType, ReactionType } from "@/generated/prisma/client";
+import { ReactionType, PostType } from "@/app/generated/prisma/client";
 type PropTypes = {
   commentsCount: number | undefined;
   reactionsCount: number | undefined;

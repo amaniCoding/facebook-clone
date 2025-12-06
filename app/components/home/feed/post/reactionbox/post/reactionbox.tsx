@@ -10,7 +10,7 @@ import {
 import ReactA from "../shared/reacta";
 
 import { State } from "@/app/actions/react/types";
-import { PostType, ReactionType } from "@/generated/prisma/client";
+import { ReactionType, PostType } from "@/app/generated/prisma/client";
 import { _reactA } from "@/app/actions/react/react";
 export default function ReactionBox({
   post,

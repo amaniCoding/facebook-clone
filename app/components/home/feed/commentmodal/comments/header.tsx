@@ -3,7 +3,7 @@ import Lower from "./lower";
 import { CommentType } from "@/app/api/comments/[refId]/lib";
 import Upper from "./upper";
 import Profile from "./profile";
-import { ReactionType } from "@/generated/prisma/client";
+import { ReactionType } from "@/app/generated/prisma/client";
 export default function Header({
   comment,
   gReactions,

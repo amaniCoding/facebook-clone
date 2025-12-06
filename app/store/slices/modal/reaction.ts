@@ -7,7 +7,7 @@ import {
   UserSharePost,
   PageSharePost,
 } from "@/app/api/feeder/[page]/lib";
-import { PostType, ReactionType } from "@/generated/prisma/client";
+import { ReactionType, PostType } from "@/app/generated/prisma/client";
 type ShowReactionModalPayLoadType = {
   isOpen: boolean;
   currentPost: {

@@ -3,6 +3,6 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": "always"
     },
-    "prisma.pinToPrisma6": true
+    "prisma.pinToPrisma6": false
     
 }

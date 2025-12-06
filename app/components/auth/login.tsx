@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { login } from "@/app/actions/auth/signin";
 import Link from "next/link";
@@ -6,7 +7,7 @@ import { useActionState } from "react";
 export default function Login() {
   const [state, formAction, isPending] = useActionState(login, undefined);
   return (
-    <div className="md:mt-36 md:max-w-5xl w-full mx-auto">
+    <div className="  md:max-w-5xl w-full mx-auto">
       <div className="w-full grid md:grid-cols-2 gap-10">
         <div className="flex flex-col gap-2 justify-center md:m-0 m-4">
           <p className="text-6xl font-bold text-blue-600">Facebook</p>

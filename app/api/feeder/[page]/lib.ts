@@ -1,5 +1,5 @@
+import { FeedPostType, ReactionType } from "@/app/generated/prisma/client";
 import prisma from "@/app/libs/prisma";
-import { FeedPostType, ReactionType } from "@/generated/prisma/client";
 
 const isReacted = async (
   userId: string,

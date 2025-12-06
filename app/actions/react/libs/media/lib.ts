@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use server";
 import prisma from "@/app/libs/prisma";
-import { PostType, ReactionType } from "@/generated/prisma/enums";
 import { State } from "../../types";
 import { auth } from "@/app/auth";
+import { PostType, ReactionType } from "@/app/generated/prisma/client";
 
 export const reactMedia = async (
   postType: PostType,

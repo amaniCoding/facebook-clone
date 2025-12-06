@@ -2,8 +2,8 @@
 
 import { FeedsType } from "@/app/api/feeder/[page]/lib";
 import { auth } from "@/app/auth";
+import { MediaOwnerType, MediaType } from "@/app/generated/prisma/client";
 import prisma from "@/app/libs/prisma";
-import { MediaOwnerType, MediaType } from "@/generated/prisma/client";
 
 import { put, PutBlobResult, del } from "@vercel/blob";
 

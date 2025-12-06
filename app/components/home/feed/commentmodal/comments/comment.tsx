@@ -3,8 +3,8 @@ import { CommentType } from "@/app/api/comments/[refId]/lib";
 import Replies from "../replies/replies";
 
 import Header from "./header";
-import { ReactionType } from "@/generated/prisma/client";
 import { RefObject } from "react";
+import { ReactionType } from "@/app/generated/prisma/client";
 export default function Comment({
   comment,
   gReactions,

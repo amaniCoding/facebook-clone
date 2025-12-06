@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { getComments } from "./lib";
 import { auth } from "@/app/auth";
-import { PostType } from "@/generated/prisma/enums";
+import { PostType } from "@/app/generated/prisma/client";
 
 type RouteType = {
   refId: string;

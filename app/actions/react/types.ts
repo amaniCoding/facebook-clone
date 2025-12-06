@@ -1,5 +1,4 @@
-import { ReactionType } from "@/generated/prisma/client";
-
+import { ReactionType } from "@/app/generated/prisma/client";
 export type State = {
   success: boolean;
   _gReactions:

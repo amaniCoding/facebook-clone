@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Left from "../shared/lower";
-import { ReactionType } from "@/generated/prisma/client";
+import { ReactionType } from "@/app/generated/prisma/client";
 export default function Lower({
   reactionsCount,
   gReactions,

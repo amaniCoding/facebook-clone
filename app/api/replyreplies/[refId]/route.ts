@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { auth } from "@/app/auth";
-import { PostType } from "@/generated/prisma/enums";
+import { ReactionType } from "@/app/generated/prisma/client";
 import { getReplies } from "./lib";
 
 type RouteType = {

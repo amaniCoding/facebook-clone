@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { auth } from "@/app/auth";
-import { PostType, ReactionType } from "@/generated/prisma/enums";
+import { PostType, ReactionType } from "@/app/generated/prisma/client";
 import {
   getReactorsForComment,
   getReactorsForPost,

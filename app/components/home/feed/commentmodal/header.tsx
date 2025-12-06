@@ -8,7 +8,7 @@ import {
   ToGroupSharedPost,
   UserSharePost,
 } from "@/app/api/feeder/[page]/lib";
-import { PostType } from "@/generated/prisma/enums";
+import { PostType } from "@/app/generated/prisma/client";
 import { FaXmark } from "react-icons/fa6";
 
 export default function Header({

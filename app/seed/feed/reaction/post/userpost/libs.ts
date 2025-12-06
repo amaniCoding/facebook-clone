@@ -1,7 +1,7 @@
 import prisma from "@/app/libs/prisma";
 import { getRandomReactionType } from "@/app/seed/lib";
 import { getUsers } from "@/app/seed/libs";
-import { ReactionType } from "@/generated/prisma/client";
+import { ReactionType } from "@/app/generated/prisma/client";
 
 export async function _seeder() {
   const posts = await prisma.oUserPost.findMany({

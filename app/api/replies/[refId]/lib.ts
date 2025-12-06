@@ -1,7 +1,7 @@
 import { LIMIT } from "@/app/api/config";
 
+import { PostType } from "@/app/generated/prisma/client";
 import prisma from "@/app/libs/prisma";
-import { PostType } from "@/generated/prisma/enums";
 const prepareGReactions = async (replyId: string) => {
   try {
     const r = await prisma.replyReaction.groupBy({

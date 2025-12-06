@@ -6,13 +6,11 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
-  
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  
 }
 
 enum Gender {
@@ -1017,4 +1015,3 @@ model Reel {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-

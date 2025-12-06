@@ -2,7 +2,7 @@
 "use client";
 import { State } from "@/app/actions/react/types";
 import { updateFeedWithReact } from "@/app/store/slices/feed/feed";
-import { PostType, ReactionType } from "@/generated/prisma/client";
+import { ReactionType, PostType } from "@/app/generated/prisma/client";
 import Image from "next/image";
 import { useActionState, useEffect } from "react";
 import { useDispatch } from "react-redux";

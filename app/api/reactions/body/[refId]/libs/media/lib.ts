@@ -1,7 +1,7 @@
 import { LIMIT } from "@/app/api/config";
 
 import prisma from "@/app/libs/prisma";
-import { PostType, ReactionType } from "@/generated/prisma/enums";
+import { PostType, ReactionType } from "@/app/generated/prisma/client";
 
 export const getReactorsForMedia = async (
   postType: PostType,
