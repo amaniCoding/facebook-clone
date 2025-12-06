@@ -770,7 +770,7 @@ export const getReplies = async (
         }
       );
       return {
-        replies: await Promise.all(updatedReplies!),
+        replies: await Promise.all(updatedReplies! ? updatedReplies : []),
       };
     }
     if (postType === "oPagePost") {
@@ -882,7 +882,7 @@ export const getReplies = async (
         }
       );
       return {
-        replies: await Promise.all(updatedReplies!),
+        replies: await Promise.all(updatedReplies! ? updatedReplies : []),
       };
     }
     if (postType === "oGroupPost") {
@@ -994,7 +994,7 @@ export const getReplies = async (
         }
       );
       return {
-        replies: await Promise.all(updatedReplies!),
+        replies: await Promise.all(updatedReplies! ? updatedReplies : []),
       };
     }
   }

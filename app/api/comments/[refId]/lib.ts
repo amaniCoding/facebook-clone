@@ -147,7 +147,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
 
@@ -243,7 +243,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
     if (postType === "oPagePost") {
@@ -337,7 +337,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
     if (postType === "pageSharePost") {
@@ -431,7 +431,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
     if (postType === "oGroupPost") {
@@ -525,7 +525,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
     if (postType === "toGroupSharedPost") {
@@ -619,7 +619,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
   }
@@ -721,7 +721,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
     if (postType === "oPagePost") {
@@ -820,7 +820,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
     if (postType === "oGroupPost") {
@@ -919,7 +919,7 @@ export const getComments = async (
         };
       });
       return {
-        comments: await Promise.all(updatedComments!),
+        comments: await Promise.all(updatedComments ? updatedComments : []),
       };
     }
   }

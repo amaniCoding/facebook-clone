@@ -119,7 +119,7 @@ export const getPostMedias = async (
       };
     });
     return {
-      medias: await Promise.all(updatedMedias!),
+      medias: await Promise.all(updatedMedias! ? updatedMedias : []),
     };
   }
   if (postType === "oPagePost") {
@@ -193,7 +193,7 @@ export const getPostMedias = async (
       };
     });
     return {
-      medias: await Promise.all(updatedMedias!),
+      medias: await Promise.all(updatedMedias! ? updatedMedias : []),
     };
   }
   if (postType === "oGroupPost") {
@@ -267,7 +267,7 @@ export const getPostMedias = async (
       };
     });
     return {
-      medias: await Promise.all(updatedMedias!),
+      medias: await Promise.all(updatedMedias! ? updatedMedias : []),
     };
   }
   return {
