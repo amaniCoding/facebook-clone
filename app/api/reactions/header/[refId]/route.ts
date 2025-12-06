@@ -1,12 +1,12 @@
 import { NextRequest } from "next/server";
 import { auth } from "@/app/auth";
-import { ReactionType } from "@/app/generated/prisma/client";
 import {
   getGreactionsForMedia,
   getGreactionsForMediaComment,
   getGreactionsForMediaReply,
   getGreactionsForMediaReplyReply,
 } from "./media/lib";
+import { PostType } from "@/app/generated/prisma/client";
 
 type RouteType = {
   refId: string;

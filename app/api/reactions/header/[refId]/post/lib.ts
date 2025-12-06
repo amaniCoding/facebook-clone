@@ -1,4 +1,5 @@
-import { ReactionType } from "@/app/generated/prisma/client";
+import { PostType } from "@/app/generated/prisma/client";
+import prisma from "@/app/libs/prisma";
 export const getGreactionsForPost = async (
   postType: PostType,
   postId: string
